@@ -11,4 +11,22 @@ update package.json
 "start": "tsc && node dist/app.js",
 "lint": "eslint . --ext .ts",
 
+npm install --save-dev nodemon
+update package.json
+"start": "tsc && npx nodemon --watch src dist/app.js",
+
+"nodemonConfig": {
+"watch": [
+"server"
+],
+"ext": "ts",
+"ignore": [
+"*.test.ts"
+],
+"delay": "3",
+"execMap": {
+"ts": "ts-node"
+}
+},
+
 ------------Commits----------------
