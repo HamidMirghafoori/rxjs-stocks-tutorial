@@ -1,6 +1,6 @@
 import { StocksType } from "../models";
 
-export const stocks: StocksType[] = [
+export const mockPrices: StocksType[] = [
   { symbol: 'AAPL', price: 150.25, lastPrice: 148.2 },
   { symbol: 'GOOGL', price: 2800.1, lastPrice: 1810.35 },
   { symbol: 'MSFT', price: 305.0, lastPrice: 303.2 },
