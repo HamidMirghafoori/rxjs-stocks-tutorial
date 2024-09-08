@@ -1,7 +1,12 @@
 import express, { Express, Request, Response } from 'express';
+import { stocks } from './consts';
 
 const app: Express = express();
 const port: number = 3000;
+
+app.get('/stocks-price', (req, res) => {
+  res.json(stocks);
+});
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
