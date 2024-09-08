@@ -1,0 +1,13 @@
+.stock-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 10rem;
+}
+
+.symbol {
+  text-align: left;
+}
+
+.price {
+  text-align: right;
+}

@@ -1,0 +1,6 @@
+<ol *ngIf="stockPrices$ | async as prices">
+  <li *ngFor="let price of prices" class="stock-item">
+    <span class="symbol">{{ price.symbol }}:</span>
+    <span class="price">{{ price.price }}</span>
+  </li>
+</ol>
