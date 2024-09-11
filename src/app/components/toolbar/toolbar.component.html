@@ -1,0 +1,9 @@
+<div class="toolbar">
+  <div
+    class="button"
+    *ngFor="let button of toolbarButtons"
+    (click)="button.action()"
+  >
+    {{ button.caption }}
+  </div>
+</div>

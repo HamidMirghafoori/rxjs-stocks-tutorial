@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0px;
+  padding: 0px;
+}
+
+.border {
+  border: 1px solid white;
+}
+.border2 {
+  border: 1px solid red;
+}
+.border3 {
+  border: 1px solid yellow;
+}
+.border4 {
+  border: 1px solid blue;
+}

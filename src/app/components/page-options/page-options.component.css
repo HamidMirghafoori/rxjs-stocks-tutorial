@@ -1,0 +1,15 @@
+.page-options {
+  display: flex;
+  padding-bottom: 8px;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgb(224, 243, 226);
+}
+
+.button {
+  border: 1px solid rgba(114, 59, 59, 0.357);
+  border-radius: 4px;
+  padding: 2px 8px;
+  cursor: pointer;
+  background: rgba(177, 242, 209, 0.467);
+  margin: 0 4px;;
+}

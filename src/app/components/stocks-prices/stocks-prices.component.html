@@ -1,6 +1,7 @@
-<ol *ngIf="stockPrices$ | async as prices">
-  <li *ngFor="let price of prices" class="stock-item">
-    <span class="symbol">{{ price.symbol }}:</span>
-    <span class="price">{{ price.price }}</span>
+<app-page-options [options]="options" [action]="action"></app-page-options>
+<ol *ngIf="stockPrices$ | async as stocks">
+  <li *ngFor="let stock of stocks" class="stock-item">
+    <span class="symbol">{{ stock.symbol }}:</span>
+    <span class="price">{{ stock.price }}</span>
   </li>
 </ol>
