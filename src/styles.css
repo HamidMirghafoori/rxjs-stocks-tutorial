@@ -20,3 +20,28 @@
 .border4 {
   border: 1px solid blue;
 }
+
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mba {
+  margin-bottom: auto;
+}
+
+.mla {
+  margin-left: auto;
+}

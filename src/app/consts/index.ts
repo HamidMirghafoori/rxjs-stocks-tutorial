@@ -1,4 +1,4 @@
-import { StocksType } from "../models";
+import { StockFullNameType, StocksType } from "../models";
 
 export const mockPrices: StocksType[] = [
   { symbol: 'AAPL', price: 150.25, lastPrice: 148.2 },
@@ -32,3 +32,35 @@ export const mockPrices: StocksType[] = [
   { symbol: 'DIS', price: 180.4, lastPrice: 175.7 },
   { symbol: 'WMT', price: 142.2, lastPrice: 145.3 },
 ];
+
+export const mockStockFullNames: StockFullNameType = {
+  AAPL: 'Apple Inc.',
+  GOOGL: 'Alphabet Inc.',
+  MSFT: 'Microsoft Corporation',
+  AMZN: 'Amazon.com, Inc.',
+  TSLA: 'Tesla, Inc.',
+  FB: 'Meta Platforms, Inc.',
+  NFLX: 'Netflix, Inc.',
+  NVDA: 'NVIDIA Corporation',
+  BABA: 'Alibaba Group Holding Limited',
+  INTC: 'Intel Corporation',
+  AMD: 'Advanced Micro Devices, Inc.',
+  IBM: 'International Business Machines Corporation',
+  ORCL: 'Oracle Corporation',
+  CSCO: 'Cisco Systems, Inc.',
+  ADBE: 'Adobe Inc.',
+  UBER: 'Uber Technologies, Inc.',
+  LYFT: 'Lyft, Inc.',
+  SQ: 'Block, Inc.',
+  PYPL: 'PayPal Holdings, Inc.',
+  TWTR: 'Twitter, Inc.',
+  SNAP: 'Snap Inc.',
+  SPOT: 'Spotify Technology S.A.',
+  SHOP: 'Shopify Inc.',
+  ZM: 'Zoom Video Communications, Inc.',
+  CRM: 'Salesforce, Inc.',
+  PINS: 'Pinterest, Inc.',
+  DOCU: 'DocuSign, Inc.',
+  DIS: 'The Walt Disney Company',
+  WMT: 'Walmart Inc.'
+};

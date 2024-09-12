@@ -1,0 +1,13 @@
+<div class="stock-stat flex-col">
+  <div class="flex-center">{{ stockStat.price }}</div>
+  <div class="flex-row">
+    <div class="last-price">{{ stockStat.lastPrice }}</div>
+    <div
+      class="changes mla"
+      [class.positive]="stockStat.changes > 0"
+      [class.negative]="stockStat.changes < 0"
+    >
+      {{ stockStat.changes }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+.stock-stat {
+  display: flex;
+  border: 1px solid rgb(202, 186, 95);
+  border-radius: 4px;
+  padding: 8px 16px;
+  min-width: 200px;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color:rgba(14, 80, 161, 0.8);
+  background: rgba(224, 242, 255, 0.504);
+}
+
+.changes {
+  font-size: medium;
+  color: rgb(21, 47, 62);
+}
+
+.last-price {
+  font-size: medium;
+  color: rgb(0, 161, 176);
+}
+
+.positive {
+  color: rgb(16, 120, 16);
+}
+
+.negative {
+  color: rgb(205, 14, 14);
+}
+
