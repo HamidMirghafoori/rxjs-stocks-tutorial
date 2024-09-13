@@ -8,6 +8,12 @@ app.get('/stocks-price', (req, res) => {
   res.json(stocks);
 });
 
+app.get('/stocks-price-delayed', (req, res) => {
+  setTimeout(() => {
+    res.json(stocks);
+  }, 1000);
+});
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
 });
