@@ -34,7 +34,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public selectedOption$: Subject<string> = new Subject();
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
-  public stockPricesMapped$: Observable<StocksType[]> = of(mockPrices).pipe(
+  public stockPricesMapped$: Observable<StocksType[]> = this.stockPrices$.pipe(
     map((stocks: StocksType[]) =>
       stocks.map((stock) => ({
         ...stock,
