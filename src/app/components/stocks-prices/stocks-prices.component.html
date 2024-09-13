@@ -1,17 +1,35 @@
-<app-page-options [options]="options" [action]="action"></app-page-options>
+<app-page-options [options]="options" [action]="onOptionClick"></app-page-options>
 <div class="flex-row">
-  <div class="flex-col">
-    <ol *ngIf="stockPrices$ | async as stocks">
-      <li
-        *ngFor="let stock of stocks"
-        class="stock-item"
-        (click)="onStockClicked(stock)"
-      >
-        <span class="symbol">{{ stock.symbol }}:</span>
-        <span class="price">{{ stock.price }}</span>
-      </li>
-    </ol>
-  </div>
+  <ng-container [ngSwitch]="selectedOption$ | async">
+    <ng-container *ngSwitchCase="'All'">
+      <div class="flex-col">
+        <ol *ngIf="stockPrices$ | async as stocks">
+          <li
+            *ngFor="let stock of stocks"
+            class="stock-item"
+            (click)="onStockClicked(stock)"
+          >
+            <span class="symbol">{{ stock.symbol }}:</span>
+            <span class="price">{{ stock.price }}</span>
+          </li>
+        </ol>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="'Map'">
+      <ol *ngIf="stockPricesMapped$ | async as stocks">
+        <li
+          *ngFor="let stock of stocks"
+          class="stock-item"
+          [class.positive]="stock.changes"
+          [class.negative]="stock.changes === false"
+          (click)="onStockClicked(stock)"
+        >
+          <span class="symbol">{{ stock.symbol }}:</span>
+          <span class="price">{{ stock.price }}</span>
+        </li>
+      </ol>
+    </ng-container>
+  </ng-container>
   <div class="flex-col mla">
     <app-stock-name [stockName]="stockName"></app-stock-name>
     <app-stock-stats [stockStat]="stockStat"></app-stock-stats>

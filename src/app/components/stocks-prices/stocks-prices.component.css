@@ -11,3 +11,12 @@
 .price {
   text-align: right;
 }
+
+.positive {
+  background: rgba(178, 249, 178, 0.624);
+}
+
+.negative {
+  background: rgba(205, 131, 131, 0.624);
+}
+

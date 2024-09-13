@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { map, Observable, of, Subject, Subscription } from 'rxjs';
 import { mockPrices, mockStockFullNames } from '../../consts';
 import { StockNameType, StockStatType, StocksType } from '../../models';
 import { PageOptionsComponent } from '../page-options/page-options.component';
@@ -19,14 +25,30 @@ import { StockStatsComponent } from '../stock-stats/stock-stats.component';
   templateUrl: './stocks-prices.component.html',
   styleUrl: './stocks-prices.component.css',
 })
-export class StocksPricesComponent implements OnInit, OnDestroy {
+export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public options: string[] = ['All', 'Map', 'Filter'];
   public stockPrices$: Observable<StocksType[]> = of(mockPrices);
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
+  public selectedOption$: Subject<string> = new Subject();
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
+  public stockPricesMapped$: Observable<StocksType[]> = of(mockPrices).pipe(
+    map((stocks: StocksType[]) =>
+      stocks.map((stock) => ({
+        ...stock,
+        changes:
+          stock.price > stock.lastPrice
+            ? true
+            : stock.price < stock.lastPrice
+            ? false
+            : null, // null for no change
+      }))
+    )
+  );
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     this.subscription1 = this.selectedStock$.subscribe((stock) => {
@@ -44,14 +66,19 @@ export class StocksPricesComponent implements OnInit, OnDestroy {
     });
   }
 
+  public ngAfterViewInit(): void {
+    this.selectedOption$.next('All');
+    this.cdr.detectChanges();
+  }
+
   public ngOnDestroy(): void {
     this.subscription1.unsubscribe();
     this.subscription2.unsubscribe();
   }
 
-  public action(option: string): void {
-    console.log(option);
-  }
+  public onOptionClick = (option: string): void => {
+    this.selectedOption$.next(option);
+  };
 
   public onStockClicked(stock: StocksType): void {
     this.selectedStock$.next(stock);
