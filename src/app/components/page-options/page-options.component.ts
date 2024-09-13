@@ -11,4 +11,5 @@ import { Component, Input } from '@angular/core';
 export class PageOptionsComponent {
 @Input() options: string[]=[];
 @Input() action!: (option: string) => void;
+@Input() direction: string = 'row';
 }
