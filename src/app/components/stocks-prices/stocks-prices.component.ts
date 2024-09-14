@@ -6,7 +6,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, map, Observable, of, Subject, Subscription } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+  switchMap
+} from 'rxjs';
 import { mockPrices, mockStockFullNames } from '../../consts';
 import { StockNameType, StockStatType, StocksType } from '../../models';
 import { PageOptionsComponent } from '../page-options/page-options.component';
@@ -26,7 +34,7 @@ import { StockStatsComponent } from '../stock-stats/stock-stats.component';
   styleUrl: './stocks-prices.component.css',
 })
 export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
-  public options: string[] = ['All', 'Map', 'BehaviorSubject', 'Filter'];
+  public options: string[] = ['All', 'Map', 'BehaviorSubject', 'switchMap'];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = of(mockPrices);
   public stockName: StockNameType = { name: '', symbol: '' };
@@ -49,10 +57,37 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
       }))
     )
   );
+  public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
+    switchMap((filter) => {
+      switch (filter) {
+        case 'Positive':
+          return this.stockPricesMapped$.pipe(
+            map((stocks) =>
+              stocks.filter((stock) => stock.price - stock.lastPrice > 0)
+            )
+          );
+        case 'Negative':
+          return this.stockPricesMapped$.pipe(
+            map((stocks) =>
+              stocks.filter((stock) => stock.price - stock.lastPrice < 0)
+            )
+          );
+        case 'Flat':
+          return this.stockPricesMapped$.pipe(
+            map((stocks) =>
+              stocks.filter((stock) => stock.price - stock.lastPrice === 0)
+            )
+          );
+        default:
+          return this.stockPricesMapped$;
+      }
+    })
+  );
 
   constructor(private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
+    this.filteredStocks$.subscribe();
     this.subscription1 = this.selectedStock$.subscribe((stock) => {
       this.stockName = {
         symbol: stock.symbol,
