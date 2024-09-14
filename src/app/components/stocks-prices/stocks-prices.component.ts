@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { map, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, Subject, Subscription } from 'rxjs';
 import { mockPrices, mockStockFullNames } from '../../consts';
 import { StockNameType, StockStatType, StocksType } from '../../models';
 import { PageOptionsComponent } from '../page-options/page-options.component';
@@ -26,12 +26,14 @@ import { StockStatsComponent } from '../stock-stats/stock-stats.component';
   styleUrl: './stocks-prices.component.css',
 })
 export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
-  public options: string[] = ['All', 'Map', 'Filter'];
+  public options: string[] = ['All', 'Map', 'BehaviorSubject', 'Filter'];
+  public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = of(mockPrices);
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
   public selectedOption$: Subject<string> = new Subject();
+  public selectedFilter$: BehaviorSubject<string> = new BehaviorSubject('All');
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
   public stockPricesMapped$: Observable<StocksType[]> = this.stockPrices$.pipe(
@@ -78,6 +80,10 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onOptionClick = (option: string): void => {
     this.selectedOption$.next(option);
+  };
+
+  public onFilterClick = (filter: string): void => {
+    this.selectedFilter$.next(filter);
   };
 
   public onStockClicked(stock: StocksType): void {

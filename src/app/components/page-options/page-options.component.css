@@ -13,3 +13,7 @@
   background: rgba(177, 242, 209, 0.467);
   margin: 0 4px;;
 }
+
+.selected {
+  background: rgba(25, 138, 81, 0.606);
+}

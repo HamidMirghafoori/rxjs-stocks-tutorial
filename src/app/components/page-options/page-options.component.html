@@ -1,5 +1,10 @@
-<div [class.flex-col]="direction==='column'" class="page-options">
-  <div class="button" *ngFor="let option of options" (click)="action(option)">
+<div [class.flex-col]="direction === 'column'" class="page-options">
+  <div
+    class="button"
+    [class.selected]="selected === option"
+    *ngFor="let option of options"
+    (click)="action(option)"
+  >
     {{ option }}
   </div>
 </div>

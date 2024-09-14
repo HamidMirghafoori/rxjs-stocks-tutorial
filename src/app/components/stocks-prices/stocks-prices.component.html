@@ -1,4 +1,8 @@
-<app-page-options [options]="options" [action]="onOptionClick"></app-page-options>
+<app-page-options
+  [options]="options"
+  [action]="onOptionClick"
+  [selected]="selectedOption$ | async"
+></app-page-options>
 <div class="flex-row">
   <ng-container [ngSwitch]="selectedOption$ | async">
     <ng-container *ngSwitchCase="'All'">
@@ -28,6 +32,14 @@
           <span class="price">{{ stock.price }}</span>
         </li>
       </ol>
+    </ng-container>
+    <ng-container *ngSwitchCase="'BehaviorSubject'">
+      <app-page-options
+        [options]="filters"
+        [action]="onFilterClick"
+        [direction]="'column'"
+        [selected]="selectedFilter$ | async"
+      ></app-page-options>
     </ng-container>
   </ng-container>
   <div class="flex-col mla">

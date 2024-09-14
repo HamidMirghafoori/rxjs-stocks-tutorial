@@ -12,4 +12,5 @@ export class PageOptionsComponent {
 @Input() options: string[]=[];
 @Input() action!: (option: string) => void;
 @Input() direction: string = 'row';
+@Input() selected: string | null = null;
 }
