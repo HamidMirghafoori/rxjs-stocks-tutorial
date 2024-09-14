@@ -1,4 +1,5 @@
 .header {
+  position: relative;
   display: flex;
   flex: 1;
   justify-content: center;
@@ -7,4 +8,10 @@
   color: rgb(70, 44, 164);
   font-size: large;
   margin-bottom: 4px;
+}
+
+.clock {
+position: absolute;
+right: 0;
+padding-right: 16px;
 }
