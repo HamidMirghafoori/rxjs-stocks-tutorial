@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class ToolbarComponent {
   public toolbarButtons = [
     { caption: 'Home', action: () => this.home() },
-    { caption: 'Price List', action: () => this.stockPrice() },
+    { caption: 'Stocks List', action: () => this.stockPrice() },
   ];
 
   constructor(private router: Router) {}

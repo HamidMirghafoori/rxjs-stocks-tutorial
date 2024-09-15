@@ -10,13 +10,13 @@ import {
   BehaviorSubject,
   map,
   Observable,
-  of,
   Subject,
   Subscription,
   switchMap
 } from 'rxjs';
-import { mockPrices, mockStockFullNames } from '../../consts';
+import { mockStockFullNames } from '../../consts';
 import { StockNameType, StockStatType, StocksType } from '../../models';
+import { DataService } from '../../services';
 import { PageOptionsComponent } from '../page-options/page-options.component';
 import { StockNameComponent } from '../stock-name/stock-name.component';
 import { StockStatsComponent } from '../stock-stats/stock-stats.component';
@@ -36,7 +36,7 @@ import { StockStatsComponent } from '../stock-stats/stock-stats.component';
 export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public options: string[] = ['All', 'Map', 'BehaviorSubject', 'switchMap'];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
-  public stockPrices$: Observable<StocksType[]> = of(mockPrices);
+  public stockPrices$!: Observable<StocksType[]>;
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
@@ -44,19 +44,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public selectedFilter$: BehaviorSubject<string> = new BehaviorSubject('All');
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
-  public stockPricesMapped$: Observable<StocksType[]> = this.stockPrices$.pipe(
-    map((stocks: StocksType[]) =>
-      stocks.map((stock) => ({
-        ...stock,
-        changes:
-          stock.price > stock.lastPrice
-            ? true
-            : stock.price < stock.lastPrice
-            ? false
-            : null, // null for no change
-      }))
-    )
-  );
+  public stockPricesMapped$!: Observable<StocksType[]>;
   public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
     switchMap((filter) => {
       switch (filter) {
@@ -84,9 +72,26 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   );
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private dataService: DataService
+  ) {}
 
   public ngOnInit(): void {
+    this.stockPrices$ = this.dataService.getStocksList();
+    this.stockPricesMapped$ = this.stockPrices$.pipe(
+      map((stocks: StocksType[]) =>
+        stocks.map((stock) => ({
+          ...stock,
+          changes:
+            stock.price > stock.lastPrice
+              ? true
+              : stock.price < stock.lastPrice
+              ? false
+              : null, // null for no change
+        }))
+      )
+    );
     this.filteredStocks$.subscribe();
     this.subscription1 = this.selectedStock$.subscribe((stock) => {
       this.stockName = {
