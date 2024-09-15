@@ -1,7 +1,7 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import { stocks } from './consts';
-import { getRandomStocks } from './utilities/insex';
+import { getRandomStocks } from './utilities';
 
 const app: Express = express();
 const port: number = 3000;
