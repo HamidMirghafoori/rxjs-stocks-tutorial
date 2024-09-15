@@ -11,7 +11,7 @@ export interface StockFullNameType {
 }
 
 export interface StockDetails {
-  marketCap: string;
+  marketCap: number; //in billion
   peRatio: number;
   weekHigh52: number;
   weekLow52: number;
