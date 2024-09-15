@@ -10,9 +10,10 @@ import {
   BehaviorSubject,
   map,
   Observable,
+  shareReplay,
   Subject,
   Subscription,
-  switchMap
+  switchMap,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import { StockNameType, StockStatType, StocksType } from '../../models';
@@ -78,7 +79,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.stockPrices$ = this.dataService.getStocksList();
+    this.stockPrices$ = this.dataService.getStocksList().pipe(shareReplay());
     this.stockPricesMapped$ = this.stockPrices$.pipe(
       map((stocks: StocksType[]) =>
         stocks.map((stock) => ({
