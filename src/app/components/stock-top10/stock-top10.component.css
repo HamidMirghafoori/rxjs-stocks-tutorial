@@ -1,0 +1,13 @@
+.top10 {
+  display: flex;
+  border: 1px solid rgb(202, 186, 95);
+  border-radius: 4px;
+  padding: 8px 16px;
+  min-width: 200px;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color:rgba(14, 161, 63, 0.8);
+  background: rgba(245, 224, 255, 0.504);
+  margin-top:8px;
+}

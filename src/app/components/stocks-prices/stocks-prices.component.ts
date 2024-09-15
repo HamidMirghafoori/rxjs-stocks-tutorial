@@ -19,8 +19,10 @@ import { mockStockFullNames } from '../../consts';
 import { StockNameType, StockStatType, StocksType } from '../../models';
 import { DataService } from '../../services';
 import { PageOptionsComponent } from '../page-options/page-options.component';
+import { StockDetailsComponent } from '../stock-details/stock-details.component';
 import { StockNameComponent } from '../stock-name/stock-name.component';
 import { StockStatsComponent } from '../stock-stats/stock-stats.component';
+import { StockTop10Component } from '../stock-top10/stock-top10.component';
 
 @Component({
   selector: 'app-stocks-prices',
@@ -30,6 +32,8 @@ import { StockStatsComponent } from '../stock-stats/stock-stats.component';
     PageOptionsComponent,
     StockNameComponent,
     StockStatsComponent,
+    StockDetailsComponent,
+    StockTop10Component
   ],
   templateUrl: './stocks-prices.component.html',
   styleUrl: './stocks-prices.component.css',
@@ -98,6 +102,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
         }))
       )
     );
+    this.dataService.getStockDetailInformation().subscribe(data => console.log(11, data))
     this.filteredStocks$.subscribe();
     this.subscription1 = this.selectedStock$.subscribe((stock) => {
       this.stockName = {

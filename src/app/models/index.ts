@@ -20,3 +20,11 @@ export interface StockStatType {
   lastPrice: number;
   changes: number;
 }
+
+export interface StockDetails {
+  marketCap: number; //in billion
+  peRatio: number;
+  weekHigh52: number;
+  weekLow52: number;
+  description: string;
+}
