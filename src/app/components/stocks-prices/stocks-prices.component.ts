@@ -46,6 +46,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
   public stockPricesMapped$!: Observable<StocksType[]>;
+  private fetchData$ = new BehaviorSubject<void>(undefined);
+
   public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
     switchMap((filter) => {
       switch (filter) {
@@ -79,7 +81,10 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.stockPrices$ = this.dataService.getStocksList().pipe(shareReplay());
+    this.stockPrices$ = this.fetchData$.pipe(
+      switchMap(() => this.dataService.getStocksList()),
+      shareReplay()
+    );
     this.stockPricesMapped$ = this.stockPrices$.pipe(
       map((stocks: StocksType[]) =>
         stocks.map((stock) => ({
@@ -120,6 +125,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onOptionClick = (option: string): void => {
+    if (option === 'All') {
+      this.fetchData$.next();
+    }
     this.selectedOption$.next(option);
   };
 
