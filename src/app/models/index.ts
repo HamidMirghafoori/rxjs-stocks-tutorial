@@ -1,3 +1,4 @@
+
 export interface StocksType {
   symbol: string;
   price: number;
@@ -27,4 +28,8 @@ export interface StockDetails {
   weekHigh52: number;
   weekLow52: number;
   description: string;
+}
+
+export interface StockFullDetail extends StockDetails {
+symbol: string;
 }

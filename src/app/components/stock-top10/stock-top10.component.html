@@ -1,3 +1,11 @@
 <div class="top10 flex-col">
-  <div>Top 10 Stocks</div>
+  <div class="title">Top 10 Stocks</div>
+  <ng-content *ngIf="top10Stocks$ | async as stocks">
+    <div *ngFor="let stock of stocks; let i = index" class="stock-top10">
+      <span class="index">{{ i + 1 }} -</span>
+      <span class="symbol">{{ stock.symbol }}</span>
+      <span class="separator">:</span>
+      <span class="pe-ratio">{{ stock.peRatio }}</span>
+    </div>
+  </ng-content>
 </div>

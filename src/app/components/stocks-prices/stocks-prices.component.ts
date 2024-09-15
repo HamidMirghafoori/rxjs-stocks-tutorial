@@ -16,7 +16,12 @@ import {
   switchMap,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
-import { StockNameType, StockStatType, StocksType } from '../../models';
+import {
+  StockFullDetail,
+  StockNameType,
+  StockStatType,
+  StocksType,
+} from '../../models';
 import { DataService } from '../../services';
 import { PageOptionsComponent } from '../page-options/page-options.component';
 import { StockDetailsComponent } from '../stock-details/stock-details.component';
@@ -33,7 +38,7 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
     StockNameComponent,
     StockStatsComponent,
     StockDetailsComponent,
-    StockTop10Component
+    StockTop10Component,
   ],
   templateUrl: './stocks-prices.component.html',
   styleUrl: './stocks-prices.component.css',
@@ -47,6 +52,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
   public selectedOption$: Subject<string> = new Subject();
   public selectedFilter$: BehaviorSubject<string> = new BehaviorSubject('All');
+  public top10Stocks$: BehaviorSubject<StockFullDetail[]> = new BehaviorSubject(
+    [] as StockFullDetail[]
+  );
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
   public stockPricesMapped$!: Observable<StocksType[]>;
@@ -102,7 +110,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
         }))
       )
     );
-    this.dataService.getStockDetailInformation().subscribe(data => console.log(11, data))
+    this.findTop10();
     this.filteredStocks$.subscribe();
     this.subscription1 = this.selectedStock$.subscribe((stock) => {
       this.stockName = {
@@ -142,5 +150,11 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onStockClicked(stock: StocksType): void {
     this.selectedStock$.next(stock);
+  }
+
+  private findTop10() {
+    this.dataService.getStockDetailInformation().subscribe((data) => {
+      this.top10Stocks$.next(data.sort((a, b) => b.peRatio - a.peRatio).slice(0,10));
+    });
   }
 }

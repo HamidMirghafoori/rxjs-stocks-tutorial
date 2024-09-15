@@ -11,3 +11,29 @@
   background: rgba(245, 224, 255, 0.504);
   margin-top:8px;
 }
+
+.title {
+margin-bottom: 8px;
+}
+
+.stock-top10 {
+  display: flex;
+  align-items: baseline;
+  margin-left: 16px;
+  font-size: small;
+  color: rgb(32, 71, 169);
+}
+
+.symbol, .pe-ratio {
+  margin-right: 10px;
+  min-width: 64px;
+}
+
+.separator {
+  margin-right: 8px;
+}
+
+.index {
+  margin-right: 4px;
+  min-width: 32px;
+}

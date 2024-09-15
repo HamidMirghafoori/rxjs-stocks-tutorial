@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { from, map, mergeMap, Observable } from 'rxjs';
+import { forkJoin, map, mergeMap, Observable } from 'rxjs';
 import {
   serverUrl,
   stockDetailsUrl,
@@ -8,7 +8,7 @@ import {
   stockListUrl,
   stockSymbolsUrl,
 } from '../consts/routes';
-import { StocksType } from '../models';
+import { StockDetails, StockFullDetail, StocksType } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +26,9 @@ export class DataService {
     return this.http.get<StocksType[]>(apiUrl);
   }
 
-  public getStockDetails(symbol: string): Observable<any> {
+  public getStockDetails(symbol: string): Observable<StockDetails> {
     const apiUrl = serverUrl + stockDetailsUrl;
-    return this.http.get<any>(`${apiUrl}/${symbol}`);
+    return this.http.get<StockDetails>(`${apiUrl}/${symbol}`);
   }
 
   public getStockSymbols(): Observable<string[]> {
@@ -36,16 +36,16 @@ export class DataService {
     return this.http.get<string[]>(apiUrl);
   }
 
-  public getStockDetailInformation(): Observable<any[]> {
+  public getStockDetailInformation(): Observable<StockFullDetail[]> {
     return this.getStockSymbols().pipe(
       // We need the outer mergeMap() to flatten the array of symbols into individual strings
-      // which means it subscribes to getStockDetails calls and merges their results into the main stream. 
+      // which means it subscribes to getStockDetails calls and merges their results into the main stream.
       // This way, instead of emitting observables themselves, we get the results of the API calls as emissions from the outer observable.
       mergeMap((symbols) =>
-        from(symbols).pipe(
-          mergeMap((symbol) =>
+        forkJoin(
+          symbols.map((symbol) =>
             this.getStockDetails(symbol).pipe(
-              map((details) => ({ symbol, ...details }))
+              map((details) => ({ symbol, ...details } as StockFullDetail))
             )
           )
         )
