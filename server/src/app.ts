@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import { stocks } from './consts';
+import { getRandomStocks } from './utilities/insex';
 
 const app: Express = express();
 const port: number = 3000;
@@ -14,7 +15,8 @@ app.get('/stocks-price-delayed', (req, res) => {
 });
 
 app.get('/stocks-price', (req, res) => {
-  res.json(stocks);
+  const randomStocks = getRandomStocks();
+  res.json([...stocks, ...randomStocks]);
 });
 
 app.get('/', (req: Request, res: Response) => {
