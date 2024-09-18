@@ -10,6 +10,10 @@ export interface StockFullNameType {
   [key: string]: string;
 }
 
+export interface HistoricalPriceType {
+  [key: string]: number[];
+}
+
 export interface StockDetails {
   marketCap: number; //in billion
   peRatio: number;
@@ -17,3 +21,4 @@ export interface StockDetails {
   weekLow52: number;
   description: string;
 }
+

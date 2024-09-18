@@ -1,6 +1,6 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
-import { stockDetails, stocks, stockSymbols } from './consts';
+import { historicalPrices, stockDetails, stocks, stocksPart2, stockSymbols } from './consts';
 import { getRandomStocks } from './utilities';
 
 const app: Express = express();
@@ -12,6 +12,10 @@ app.get('/stocks-price-delayed', (req, res) => {
   setTimeout(() => {
     res.json(stocks);
   }, 3000);
+});
+
+app.get('/stocks-price-part2', (req, res) => {
+  res.json(stocksPart2);
 });
 
 app.get('/stocks-price', (req, res) => {
@@ -31,6 +35,16 @@ app.get('/stock/:symbol', (req, res) => {
     res.json(stock);
   } else {
     res.status(404).json({ error: 'Stock not found' });
+  }
+});
+
+app.get('/stock-historic/:symbol', (req, res) => {
+  const symbol = req.params.symbol.toUpperCase();
+
+  if (symbol) {
+    res.json(historicalPrices[symbol]);
+  } else {
+    res.status(404).json({ error: 'Symbol not found' });
   }
 });
 
