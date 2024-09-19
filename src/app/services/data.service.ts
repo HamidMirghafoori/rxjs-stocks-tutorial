@@ -5,6 +5,7 @@ import {
   serverUrl,
   stockDetailsUrl,
   stockListDelayedUrl,
+  stockListPart2Url,
   stockListUrl,
   stockSymbolsUrl,
 } from '../consts/routes';
@@ -18,6 +19,11 @@ export class DataService {
 
   public getStocksList(): Observable<StocksType[]> {
     const apiUrl = serverUrl + stockListUrl;
+    return this.http.get<StocksType[]>(apiUrl);
+  }
+
+  public getStocksListPart2(): Observable<StocksType[]> {
+    const apiUrl = serverUrl + stockListPart2Url;
     return this.http.get<StocksType[]>(apiUrl);
   }
 

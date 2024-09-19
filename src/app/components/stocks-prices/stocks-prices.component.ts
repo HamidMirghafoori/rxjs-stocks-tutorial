@@ -8,12 +8,15 @@ import {
 } from '@angular/core';
 import {
   BehaviorSubject,
+  combineLatest,
   map,
+  mergeMap,
   Observable,
+  of,
   shareReplay,
   Subject,
   Subscription,
-  switchMap,
+  switchMap
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -44,9 +47,21 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
   styleUrl: './stocks-prices.component.css',
 })
 export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
-  public options: string[] = ['All', 'Map', 'BehaviorSubject', 'switchMap'];
+  public options: string[] = [
+    'All',
+    'Map',
+    'BehaviorSubject',
+    'switchMap',
+    'combineLatest',
+  ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
-  public stockPrices$!: Observable<StocksType[]>;
+  public stockPrices$: Observable<StocksType[]> = new Observable<
+    StocksType[]
+  >();
+  public stockPricesPart2$: Observable<StocksType[]> = new Observable<
+    StocksType[]
+  >();
+  public allStocks$: Observable<StocksType[]> = new Observable<StocksType[]>();
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
@@ -97,6 +112,18 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
       switchMap(() => this.dataService.getStocksList()),
       shareReplay()
     );
+
+    this.stockPricesPart2$ = this.fetchData$.pipe(
+      switchMap(() => this.dataService.getStocksListPart2()),
+      shareReplay()
+    );
+    this.allStocks$ = combineLatest([
+      this.stockPrices$,
+      this.stockPricesPart2$,
+    ]).pipe(
+      mergeMap(([part1, part2]) => of([...part1.slice(0, -2), ...part2]))
+    );
+
     this.stockPricesMapped$ = this.stockPrices$.pipe(
       map((stocks: StocksType[]) =>
         stocks.map((stock) => ({
@@ -154,7 +181,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private findTop10() {
     this.dataService.getStockDetailInformation().subscribe((data) => {
-      this.top10Stocks$.next(data.sort((a, b) => b.peRatio - a.peRatio).slice(0,10));
+      this.top10Stocks$.next(
+        data.sort((a, b) => b.peRatio - a.peRatio).slice(0, 10)
+      );
     });
   }
 }
