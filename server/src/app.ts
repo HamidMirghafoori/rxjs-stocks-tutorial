@@ -1,33 +1,57 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
-import { historicalPrices, stockDetails, stocks, stocksPart2, stockSymbols } from './consts';
-import { getRandomStocks } from './utilities';
+import {
+  allPrices,
+  historicalPrices,
+  stockDetails,
+  stocks,
+  stocksPart2,
+  stockSymbols,
+} from './consts';
+import {
+  priceRealtime,
+  root,
+  stockBySymbols,
+  stockHistoricBySymbols,
+  stocksDelayed,
+  stocksPrice,
+  stocksPricePart2,
+  symbols,
+} from './routes';
+import { getRandomStocks, randomGain } from './utilities';
 
 const app: Express = express();
 const port: number = 3000;
 
 app.use(cors());
+app.use(express.json());
 
-app.get('/stocks-price-delayed', (req, res) => {
+app.get(stocksDelayed, (req, res) => {
   setTimeout(() => {
     res.json(stocks);
   }, 3000);
 });
 
-app.get('/stocks-price-part2', (req, res) => {
+app.get(stocksPricePart2, (req, res) => {
   res.json(stocksPart2);
 });
 
-app.get('/stocks-price', (req, res) => {
+app.get(stocksPrice, (req, res) => {
   const randomStocks = getRandomStocks();
   res.json([...stocks, ...randomStocks]);
 });
 
-app.get('/symbols', (req, res) => {
+app.get(symbols, (req, res) => {
   res.json(stockSymbols);
 });
 
-app.get('/stock/:symbol', (req, res) => {
+app.get(priceRealtime, (req, res) => {
+  const symbol = req.params.symbol.toUpperCase();
+  const price = allPrices[symbol];
+  res.json(Math.round(randomGain(price) * 100) / 100);
+});
+
+app.get(stockBySymbols, (req, res) => {
   const symbol = req.params.symbol.toUpperCase();
   const stock = stockDetails?.[symbol];
 
@@ -38,7 +62,7 @@ app.get('/stock/:symbol', (req, res) => {
   }
 });
 
-app.get('/stock-historic/:symbol', (req, res) => {
+app.get(stockHistoricBySymbols, (req, res) => {
   const symbol = req.params.symbol.toUpperCase();
 
   if (symbol) {
@@ -48,7 +72,7 @@ app.get('/stock-historic/:symbol', (req, res) => {
   }
 });
 
-app.get('/', (req: Request, res: Response) => {
+app.get(root, (req: Request, res: Response) => {
   res.send('Hello World!');
 });
 

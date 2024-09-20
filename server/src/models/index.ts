@@ -6,6 +6,9 @@ export interface StocksType {
   changes?: boolean | null;
 }
 
+export interface StockPrice {
+  [key: string]: number;
+}
 export interface StockFullNameType {
   [key: string]: string;
 }
@@ -21,4 +24,3 @@ export interface StockDetails {
   weekLow52: number;
   description: string;
 }
-
