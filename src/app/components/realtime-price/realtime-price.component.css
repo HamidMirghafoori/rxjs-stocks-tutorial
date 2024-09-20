@@ -1,0 +1,39 @@
+:host {
+min-width: 20rem;
+margin-left: auto;
+}
+
+.stock-stat {
+  display: flex;
+  justify-content: center;
+  border: 1px solid rgb(202, 186, 95);
+  border-radius: 4px;
+  padding: 8px 16px;
+  background: rgba(250, 224, 255, 0.504);
+}
+
+.price {
+  font-size: medium;
+  color: rgb(0, 161, 176);
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.symbol {
+  display: flex;
+  align-items: center;
+  font-size: medium;
+  color:rgba(38, 14, 161, 0.8);
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.market {
+  display: flex;
+  align-items: center;
+  font-size: large;
+  color:rgb(255, 136, 0);
+  font-weight: 800;
+  font-size: 2rem;
+}

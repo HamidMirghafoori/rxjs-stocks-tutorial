@@ -4,3 +4,4 @@ export const stockListPart2Url: string = 'stocks-price-part2';
 export const stockListDelayedUrl: string = 'stocks-price-delayed';
 export const stockDetailsUrl: string = 'stock';
 export const stockSymbolsUrl: string = 'symbols';
+export const realtimePriceUrl: string = 'price';

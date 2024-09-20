@@ -1,0 +1,7 @@
+<div class="stock-stat flex-col" *ngIf="stockRealtime$ | async as stockStat">
+  <div class="market center">{{ stockStat.market }}</div>
+  <div class="flex-row center">
+    <div class="symbol">{{ stockStat.symbol }}</div>
+    <div class="price">{{ stockStat.price }}</div>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
+  concat,
   map,
   mergeMap,
   Observable,
@@ -16,17 +17,19 @@ import {
   shareReplay,
   Subject,
   Subscription,
-  switchMap
+  switchMap,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
   StockFullDetail,
   StockNameType,
+  StockRealtimeType,
   StockStatType,
   StocksType,
 } from '../../models';
 import { DataService } from '../../services';
 import { PageOptionsComponent } from '../page-options/page-options.component';
+import { RealtimePriceComponent } from '../realtime-price/realtime-price.component';
 import { StockDetailsComponent } from '../stock-details/stock-details.component';
 import { StockNameComponent } from '../stock-name/stock-name.component';
 import { StockStatsComponent } from '../stock-stats/stock-stats.component';
@@ -42,6 +45,7 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
     StockStatsComponent,
     StockDetailsComponent,
     StockTop10Component,
+    RealtimePriceComponent,
   ],
   templateUrl: './stocks-prices.component.html',
   styleUrl: './stocks-prices.component.css',
@@ -53,6 +57,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     'BehaviorSubject',
     'switchMap',
     'combineLatest',
+    'concat',
   ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = new Observable<
@@ -64,6 +69,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public allStocks$: Observable<StocksType[]> = new Observable<StocksType[]>();
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
+  public stockRealtime$: BehaviorSubject<StockRealtimeType> =
+    new BehaviorSubject<StockRealtimeType>({ price: 0, market: '', symbol: '' });
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
   public selectedOption$: Subject<string> = new Subject();
   public selectedFilter$: BehaviorSubject<string> = new BehaviorSubject('All');
@@ -177,6 +184,15 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onStockClicked(stock: StocksType): void {
     this.selectedStock$.next(stock);
+  }
+
+  public onRealStockClicked = (stock: StocksType): void => {
+    const realPrice$ = this.dataService.getRealtimePrice(stock.symbol)
+    concat(realPrice$, realPrice$, realPrice$).subscribe(price => {
+      console.log(price)
+      this.stockRealtime$.next({price, market: stock.symbol, symbol: stock.symbol});
+    })
+    
   }
 
   private findTop10() {

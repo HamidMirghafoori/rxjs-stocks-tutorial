@@ -21,6 +21,10 @@
   border: 1px solid blue;
 }
 
+.center {
+  align-items: center;
+  justify-content: center;
+}
 
 .flex-col {
   display: flex;

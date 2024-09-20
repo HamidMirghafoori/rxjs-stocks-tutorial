@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, mergeMap, Observable } from 'rxjs';
 import {
+  realtimePriceUrl,
   serverUrl,
   stockDetailsUrl,
   stockListDelayedUrl,
@@ -35,6 +36,11 @@ export class DataService {
   public getStockDetails(symbol: string): Observable<StockDetails> {
     const apiUrl = serverUrl + stockDetailsUrl;
     return this.http.get<StockDetails>(`${apiUrl}/${symbol}`);
+  }
+
+  public getRealtimePrice(symbol: string): Observable<number> {
+    const apiUrl = serverUrl + realtimePriceUrl;
+    return this.http.get<number>(`${apiUrl}/${symbol}`);
   }
 
   public getStockSymbols(): Observable<string[]> {

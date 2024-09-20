@@ -12,6 +12,11 @@ export interface StockNameType {
   name: string;
 }
 
+export interface MarketRealtimeType {
+  symbol: string;
+  price: number;
+}
+
 export interface StockFullNameType {
   [key: string]: string;
 }
@@ -20,6 +25,12 @@ export interface StockStatType {
   price: number;
   lastPrice: number;
   changes: number;
+}
+
+export interface StockRealtimeType {
+  price: number;
+  market: string;
+  symbol: string;
 }
 
 export interface StockDetails {

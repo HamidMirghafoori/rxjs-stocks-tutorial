@@ -54,20 +54,20 @@
       </div>
     </ng-container>
     <ng-container *ngSwitchCase="'combineLatest'">
-      <div class="flex-col">
-        <ol *ngIf="allStocks$ | async as allStocks">
-          <li
-            *ngFor="let stock of allStocks"
-            class="stock-item"
-            [class.positive]="stock.changes"
-            [class.negative]="stock.changes === false"
-            (click)="onStockClicked(stock)"
-          >
-            <span class="symbol">{{ stock.symbol }}:</span>
-            <span class="price">{{ stock.price }}</span>
-          </li>
-        </ol>
-      </div>
+      <ng-container
+        *ngTemplateOutlet="combine; context: { clickHandler: onStockClicked }"
+      ></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'concat'">
+      <ng-container
+        *ngTemplateOutlet="
+          combine;
+          context: { clickHandler: onRealStockClicked }
+        "
+      ></ng-container>
+      <app-realtime-price
+        [stockRealtime$]="stockRealtime$"
+      ></app-realtime-price>
     </ng-container>
   </ng-container>
   <div class="flex-col mla">
@@ -84,4 +84,21 @@
     [direction]="'column'"
     [selected]="selectedFilter$ | async"
   ></app-page-options>
+</ng-template>
+
+<ng-template #combine let-clickHandler="clickHandler">
+  <div class="flex-col">
+    <ol *ngIf="allStocks$ | async as allStocks">
+      <li
+        *ngFor="let stock of allStocks"
+        class="stock-item"
+        [class.positive]="stock.changes"
+        [class.negative]="stock.changes === false"
+        (click)="clickHandler(stock)"
+      >
+        <span class="symbol">{{ stock.symbol }}:</span>
+        <span class="price">{{ stock.price }}</span>
+      </li>
+    </ol>
+  </div>
 </ng-template>
