@@ -9,7 +9,8 @@ import {
 import {
   BehaviorSubject,
   combineLatest,
-  concat,
+  concatMap,
+  delay,
   map,
   mergeMap,
   Observable,
@@ -18,7 +19,6 @@ import {
   Subject,
   Subscription,
   switchMap,
-  timer
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -192,18 +192,22 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onRealStockClicked = (stock: StocksType): void => {
-    // const realPrice$ = this.dataService.getRealtimePrice(stock.symbol).pipe(delay(2000))
-    const realPrice$ = timer(2000).pipe(
-      switchMap(() => this.dataService.getRealtimePrice(stock.symbol))
-    );
-
-    concat(realPrice$, realPrice$, realPrice$).subscribe((price) => {
-      this.stockRealtime$.next({
-        price,
-        market: stock.symbol,
-        symbol: stock.symbol,
+    const realPrice$ = this.dataService.getRealtimePrice(stock.symbol);
+    of('Nasdaq', 'NYSE', 'LSE') // instead of having hardcoded values we can have them as markets$ here
+      .pipe(
+        concatMap((market) => {
+          return (
+            market === 'Nasdaq' ? realPrice$ : realPrice$.pipe(delay(2000))
+          ).pipe(map((price) => ({ price, market })));
+        })
+      )
+      .subscribe(({ price, market }) => {
+        this.stockRealtime$.next({
+          price,
+          market,
+          symbol: stock.symbol,
+        });
       });
-    });
   };
 
   private findTop10() {
