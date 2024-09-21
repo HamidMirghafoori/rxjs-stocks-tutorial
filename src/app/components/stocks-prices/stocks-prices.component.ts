@@ -18,6 +18,7 @@ import {
   Subject,
   Subscription,
   switchMap,
+  timer
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -70,7 +71,11 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   public stockRealtime$: BehaviorSubject<StockRealtimeType> =
-    new BehaviorSubject<StockRealtimeType>({ price: 0, market: '', symbol: '' });
+    new BehaviorSubject<StockRealtimeType>({
+      price: 0,
+      market: '',
+      symbol: '',
+    });
   private selectedStock$: Subject<StocksType> = new Subject<StocksType>();
   public selectedOption$: Subject<string> = new Subject();
   public selectedFilter$: BehaviorSubject<string> = new BehaviorSubject('All');
@@ -187,13 +192,19 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onRealStockClicked = (stock: StocksType): void => {
-    const realPrice$ = this.dataService.getRealtimePrice(stock.symbol)
-    concat(realPrice$, realPrice$, realPrice$).subscribe(price => {
-      console.log(price)
-      this.stockRealtime$.next({price, market: stock.symbol, symbol: stock.symbol});
-    })
-    
-  }
+    // const realPrice$ = this.dataService.getRealtimePrice(stock.symbol).pipe(delay(2000))
+    const realPrice$ = timer(2000).pipe(
+      switchMap(() => this.dataService.getRealtimePrice(stock.symbol))
+    );
+
+    concat(realPrice$, realPrice$, realPrice$).subscribe((price) => {
+      this.stockRealtime$.next({
+        price,
+        market: stock.symbol,
+        symbol: stock.symbol,
+      });
+    });
+  };
 
   private findTop10() {
     this.dataService.getStockDetailInformation().subscribe((data) => {
