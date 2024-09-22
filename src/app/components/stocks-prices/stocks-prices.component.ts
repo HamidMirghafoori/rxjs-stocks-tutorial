@@ -12,15 +12,17 @@ import {
   combineLatest,
   concatMap,
   delay,
+  filter,
   map,
   mergeMap,
   Observable,
   of,
   shareReplay,
+  startWith,
   Subject,
   Subscription,
   switchMap,
-  tap,
+  tap
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -62,7 +64,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     'switchMap',
     'combineLatest',
     'concat/concatMap',
-    'tap',
+    'tap/filter',
   ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = new Observable<
@@ -93,6 +95,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public minRange: number = 0;
   public maxRange: number = 100;
   public currentRange$ = new BehaviorSubject<number | null>(this.maxRange);
+  public allSectors$!: Observable<string[]>;
+  private selectedSector$ = new BehaviorSubject<string>('');
+  private clickedStock$ = new BehaviorSubject<StocksType | null>(null);
 
   public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
     switchMap((filter) => {
@@ -120,6 +125,17 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     })
   );
+
+  public selectedFilteredStock$: Observable<StocksType | null> =
+    this.clickedStock$.pipe(
+      switchMap((stock) =>
+        this.selectedSector$.pipe(
+          filter((selectedSector) => selectedSector === stock?.sector),
+          map(() => stock), // we need to return stock observable, otherwise selectedSector will be returned
+          startWith(null) // to clear slickedStock if filter fails and it previously had a value
+        )
+      )
+    );
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -164,6 +180,10 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     );
 
+    this.allSectors$ = this.allStocks$.pipe(
+      map((stocks) => [...new Set(stocks.map((stock) => stock.sector))])
+    );
+
     this.stockPricesMapped$ = this.stockPrices$.pipe(
       map((stocks: StocksType[]) =>
         stocks.map((stock) => ({
@@ -194,6 +214,12 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  public onSectorChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const sector = inputElement.value;
+    this.selectedSector$.next(sector);
+  }
+
   public onRangeChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const newRange = Number(inputElement.value);
@@ -219,6 +245,10 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onFilterClick = (filter: string): void => {
     this.selectedFilter$.next(filter);
+  };
+
+  public onFilteredStockClick = (stock: StocksType) => {
+    this.clickedStock$.next(stock);
   };
 
   public onStockClicked(stock: StocksType): void {

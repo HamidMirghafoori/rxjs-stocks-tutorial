@@ -53,3 +53,16 @@
 .ml4 {
   margin-left: 4rem;
 }
+
+.mt2 {
+  margin-top: 2rem;
+}
+
+.mt4 {
+  margin-top: 4rem;
+}
+
+.sector-error {
+  background: rgba(202, 152, 152, 0.494);
+  padding: 1rem;
+}

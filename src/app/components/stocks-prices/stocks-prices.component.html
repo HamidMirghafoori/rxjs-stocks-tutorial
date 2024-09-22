@@ -69,27 +69,53 @@
         [stockRealtime$]="stockRealtime$"
       ></app-realtime-price>
     </ng-container>
-    <ng-container *ngSwitchCase="'tap'">
+    <ng-container *ngSwitchCase="'tap/filter'">
       <ng-container
-        *ngTemplateOutlet="combine; context: { clickHandler: undefined }"
+        *ngTemplateOutlet="
+          combine;
+          context: { clickHandler: onFilteredStockClick }
+        "
       ></ng-container>
-      <div class="ml4">
-        <label for="pricing">Price range: </label>
-        <div class="current-value">{{ currentRange$ | async}}</div>
-        <input
-          class="range"
-          type="range"
-          name="pricing"
-          id="pricing"
-          [min]="minRange"
-          [max]="maxRange"
-          step="1"
-          [value]="currentRange$ | async"
-          (input)="onRangeChange($event)"
-        />
-        <div class="range-labels">
-          <span>{{ minRange }}</span>
-          <span>{{ maxRange }}</span>
+      <div class="flex-clo">
+        <div class="ml4">
+          <label for="pricing">Price range: </label>
+          <div class="current-value">{{ currentRange$ | async }}</div>
+          <input
+            class="range"
+            type="range"
+            name="pricing"
+            id="pricing"
+            [min]="minRange"
+            [max]="maxRange"
+            step="1"
+            [value]="currentRange$ | async"
+            (input)="onRangeChange($event)"
+          />
+          <div class="range-labels">
+            <span>{{ minRange }}</span>
+            <span>{{ maxRange }}</span>
+          </div>
+        </div>
+        <div class="flex-col ml4 mt4">
+          <label for="sector-select">Sectors: </label>
+          <select
+            class="select-sector"
+            id="sector-select"
+            (change)="onSectorChange($event)"
+          >
+            <option value="''">Select a sector</option>
+            <option *ngFor="let sector of allSectors$ | async" [value]="sector">
+              {{ sector }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="!(selectedFilteredStock$ | async)" class="ml4 mt2 sector-error">
+          Not selected / Sector doesn't match
+        </div>
+        <div *ngIf="selectedFilteredStock$ | async as stock" class="ml4 mt2 sector-info">
+          <div class="">Symbol: {{ stock.symbol }}</div>
+          <div class="">Price: {{ stock.price }}</div>
+          <div class="">Sector: {{ stock.sector }}</div>
         </div>
       </div>
     </ng-container>
