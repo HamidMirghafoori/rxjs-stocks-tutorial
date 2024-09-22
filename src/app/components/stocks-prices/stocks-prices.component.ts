@@ -58,7 +58,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     'BehaviorSubject',
     'switchMap',
     'combineLatest',
-    'concat',
+    'concat/concatMap'
   ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = new Observable<

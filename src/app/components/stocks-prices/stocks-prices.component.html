@@ -58,7 +58,7 @@
         *ngTemplateOutlet="combine; context: { clickHandler: onStockClicked }"
       ></ng-container>
     </ng-container>
-    <ng-container *ngSwitchCase="'concat'">
+    <ng-container *ngSwitchCase="'concat/concatMap'">
       <ng-container
         *ngTemplateOutlet="
           combine;
@@ -69,6 +69,7 @@
         [stockRealtime$]="stockRealtime$"
       ></app-realtime-price>
     </ng-container>
+
   </ng-container>
   <div class="flex-col mla">
     <app-stock-name [stockName]="stockName"></app-stock-name>
