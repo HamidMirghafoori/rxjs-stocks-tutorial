@@ -20,3 +20,25 @@
   background: rgba(205, 131, 131, 0.624);
 }
 
+.range {
+  width: 20rem;
+  margin-top: 8px;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+}
+
+.range-labels span {
+  font-size: 14px;
+}
+
+.current-value {
+  width: 20rem;
+  text-align: center;
+}
+
+.all-stocks {
+  width: 10rem;
+}

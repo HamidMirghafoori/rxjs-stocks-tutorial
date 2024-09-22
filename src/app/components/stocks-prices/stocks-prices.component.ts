@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   BehaviorSubject,
   combineLatest,
@@ -19,6 +20,7 @@ import {
   Subject,
   Subscription,
   switchMap,
+  tap,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -41,6 +43,7 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     PageOptionsComponent,
     StockNameComponent,
     StockStatsComponent,
@@ -58,7 +61,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     'BehaviorSubject',
     'switchMap',
     'combineLatest',
-    'concat/concatMap'
+    'concat/concatMap',
+    'tap',
   ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = new Observable<
@@ -86,6 +90,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscription2: Subscription = new Subscription();
   public stockPricesMapped$!: Observable<StocksType[]>;
   private fetchData$ = new BehaviorSubject<void>(undefined);
+  public minRange: number = 0;
+  public maxRange: number = 100;
+  public currentRange$ = new BehaviorSubject<number | null>(this.maxRange);
 
   public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
     switchMap((filter) => {
@@ -119,6 +126,14 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     private dataService: DataService
   ) {}
 
+  private findMin(stocks: StocksType[]): number {
+    return Math.floor(Math.min(...stocks.map((stock) => stock.price)));
+  }
+
+  private findMax(stocks: StocksType[]): number {
+    return Math.ceil(Math.max(...stocks.map((stock) => stock.price)));
+  }
+
   public ngOnInit(): void {
     this.stockPrices$ = this.fetchData$.pipe(
       switchMap(() => this.dataService.getStocksList()),
@@ -129,11 +144,24 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
       switchMap(() => this.dataService.getStocksListPart2()),
       shareReplay()
     );
+
     this.allStocks$ = combineLatest([
       this.stockPrices$,
       this.stockPricesPart2$,
+      this.currentRange$,
     ]).pipe(
-      mergeMap(([part1, part2]) => of([...part1.slice(0, -2), ...part2]))
+      mergeMap(([part1, part2, currentRange]) =>
+        of({ combinedStocks: [...part1.slice(0, -2), ...part2], currentRange })
+      ),
+      tap(({ combinedStocks }) => {
+        this.minRange = this.findMin(combinedStocks);
+        this.maxRange = this.findMax(combinedStocks);
+      }),
+      map(({ combinedStocks, currentRange }) =>
+        combinedStocks.filter((stock) =>
+          currentRange ? stock.price < currentRange : true
+        )
+      )
     );
 
     this.stockPricesMapped$ = this.stockPrices$.pipe(
@@ -164,6 +192,12 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
         changes: Math.round((stock.price - stock.lastPrice) * 100) / 100,
       } as StockStatType;
     });
+  }
+
+  public onRangeChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const newRange = Number(inputElement.value);
+    this.currentRange$.next(newRange);
   }
 
   public ngAfterViewInit(): void {

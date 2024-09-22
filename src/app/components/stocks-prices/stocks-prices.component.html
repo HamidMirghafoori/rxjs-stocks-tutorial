@@ -69,7 +69,30 @@
         [stockRealtime$]="stockRealtime$"
       ></app-realtime-price>
     </ng-container>
-
+    <ng-container *ngSwitchCase="'tap'">
+      <ng-container
+        *ngTemplateOutlet="combine; context: { clickHandler: undefined }"
+      ></ng-container>
+      <div class="ml4">
+        <label for="pricing">Price range: </label>
+        <div class="current-value">{{ currentRange$ | async}}</div>
+        <input
+          class="range"
+          type="range"
+          name="pricing"
+          id="pricing"
+          [min]="minRange"
+          [max]="maxRange"
+          step="1"
+          [value]="currentRange$ | async"
+          (input)="onRangeChange($event)"
+        />
+        <div class="range-labels">
+          <span>{{ minRange }}</span>
+          <span>{{ maxRange }}</span>
+        </div>
+      </div>
+    </ng-container>
   </ng-container>
   <div class="flex-col mla">
     <app-stock-name [stockName]="stockName"></app-stock-name>
@@ -88,14 +111,14 @@
 </ng-template>
 
 <ng-template #combine let-clickHandler="clickHandler">
-  <div class="flex-col">
+  <div class="flex-col all-stocks">
     <ol *ngIf="allStocks$ | async as allStocks">
       <li
         *ngFor="let stock of allStocks"
         class="stock-item"
         [class.positive]="stock.changes"
         [class.negative]="stock.changes === false"
-        (click)="clickHandler(stock)"
+        (click)="clickHandler ? clickHandler(stock) : undefined"
       >
         <span class="symbol">{{ stock.symbol }}:</span>
         <span class="price">{{ stock.price }}</span>
