@@ -5,6 +5,7 @@ import {
   historicalPrices,
   stockDetails,
   stocks,
+  stocksFullName,
   stocksPart2,
   stockSymbols,
 } from './consts';
@@ -12,7 +13,9 @@ import {
   priceRealtime,
   root,
   stockBySymbols,
+  stockHistoric,
   stockHistoricBySymbols,
+  stockNameBySymbols,
   stocksDelayed,
   stocksPrice,
   stocksPricePart2,
@@ -70,6 +73,20 @@ app.get(stockHistoricBySymbols, (req, res) => {
   } else {
     res.status(404).json({ error: 'Symbol not found' });
   }
+});
+
+app.get(stockNameBySymbols, (req, res) => {
+  const symbol = req.params.symbol.toUpperCase();
+
+  if (symbol) {
+    res.json(stocksFullName[symbol]);
+  } else {
+    res.status(404).json({ error: 'Symbol not found' });
+  }
+});
+
+app.get(stockHistoric, (req, res) => {
+  res.json(historicalPrices);
 });
 
 app.get(root, (req: Request, res: Response) => {
