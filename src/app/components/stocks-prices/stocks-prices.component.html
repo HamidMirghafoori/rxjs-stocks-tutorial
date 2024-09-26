@@ -109,13 +109,19 @@
             </option>
           </select>
         </div>
-        <div *ngIf="!(selectedFilteredStock$ | async)" class="ml4 mt2 sector-error">
+        <div
+          *ngIf="!(selectedFilteredStock$ | async)"
+          class="ml4 mt2 sector-error"
+        >
           Not selected / Sector doesn't match
         </div>
-        <div *ngIf="selectedFilteredStock$ | async as stock" class="ml4 mt2 sector-info">
-          <div class="">Symbol: {{ stock.symbol }}</div>
-          <div class="">Price: {{ stock.price }}</div>
-          <div class="">Sector: {{ stock.sector }}</div>
+        <div *ngIf="selectedFilteredStock$ | async as stock" class="">
+          <div class="ml4 mt2 sector-info">
+            <div class="">Symbol: {{ stock.symbol }}</div>
+            <div class="">Price: {{ stock.price }}</div>
+            <div class="">Sector: {{ stock.sector }}</div>
+          </div>
+          <app-chart [symbol]="stock.symbol"></app-chart>
         </div>
       </div>
     </ng-container>

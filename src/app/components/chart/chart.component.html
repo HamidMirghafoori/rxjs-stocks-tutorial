@@ -1,0 +1,10 @@
+<div class="ml4 flex-col">
+  <div class="name">{{ stockFullName$ | async }}</div>
+  <div class="flex-row chart">
+    <div
+      class="bar"
+      [style.height.%]="item"
+      *ngFor="let item of chatData$ | async"
+    ></div>
+  </div>
+</div>

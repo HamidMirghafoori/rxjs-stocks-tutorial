@@ -5,9 +5,11 @@ import {
   realtimePriceUrl,
   serverUrl,
   stockDetailsUrl,
+  stockHistoricBySymbols,
   stockListDelayedUrl,
   stockListPart2Url,
   stockListUrl,
+  stockNameBySymbols,
   stockSymbolsUrl,
 } from '../consts/routes';
 import { StockDetails, StockFullDetail, StocksType } from '../models';
@@ -36,6 +38,16 @@ export class DataService {
   public getStockDetails(symbol: string): Observable<StockDetails> {
     const apiUrl = serverUrl + stockDetailsUrl;
     return this.http.get<StockDetails>(`${apiUrl}/${symbol}`);
+  }
+
+  public getSymbolHistoricData(symbol: string): Observable<number[]> {
+    const apiUrl = serverUrl + stockHistoricBySymbols;
+    return this.http.get<number[]>(`${apiUrl}/${symbol}`);
+  }
+
+  public getStockNameBySymbol(symbol: string): Observable<string> {
+    const apiUrl = serverUrl + stockNameBySymbols;
+    return this.http.get<string>(`${apiUrl}/${symbol}`);
   }
 
   public getRealtimePrice(symbol: string): Observable<number> {

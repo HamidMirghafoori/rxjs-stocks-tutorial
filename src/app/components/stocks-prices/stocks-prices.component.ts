@@ -33,6 +33,7 @@ import {
   StocksType,
 } from '../../models';
 import { DataService } from '../../services';
+import { ChartComponent } from '../chart/chart.component';
 import { PageOptionsComponent } from '../page-options/page-options.component';
 import { RealtimePriceComponent } from '../realtime-price/realtime-price.component';
 import { StockDetailsComponent } from '../stock-details/stock-details.component';
@@ -45,6 +46,7 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
   standalone: true,
   imports: [
     CommonModule,
+    ChartComponent,
     FormsModule,
     PageOptionsComponent,
     StockNameComponent,
