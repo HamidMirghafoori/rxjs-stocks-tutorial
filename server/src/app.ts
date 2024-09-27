@@ -11,6 +11,7 @@ import {
 } from './consts';
 import {
   priceRealtime,
+  priceRealtimeWithDelay,
   root,
   stockBySymbols,
   stockHistoric,
@@ -52,6 +53,14 @@ app.get(priceRealtime, (req, res) => {
   const symbol = req.params.symbol.toUpperCase();
   const price = allPrices[symbol];
   res.json(Math.round(randomGain(price) * 100) / 100);
+});
+
+app.get(priceRealtimeWithDelay, (req, res) => {
+  const symbol = req.params.symbol.toUpperCase();
+  const price = allPrices[symbol];
+  setTimeout(() => {
+    res.json(Math.round(randomGain(price) * 100) / 100);
+  }, 2000);
 });
 
 app.get(stockBySymbols, (req, res) => {

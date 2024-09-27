@@ -8,3 +8,4 @@ export const stockHistoric = '/stock-historic';
 export const stockHistoricBySymbols = '/stock-historic/:symbol';
 export const root = '/';
 export const priceRealtime = '/price/:symbol';
+export const priceRealtimeWithDelay = '/delayed-price/:symbol';
