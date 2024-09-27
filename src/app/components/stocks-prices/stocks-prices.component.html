@@ -125,6 +125,24 @@
         </div>
       </div>
     </ng-container>
+    <ng-container *ngSwitchCase="'fromEvent'">
+      <ng-container
+        *ngTemplateOutlet="combine; context: { clickHandler: onUserRefresh }"
+      ></ng-container>
+      <div class="ml4">
+        <div class="ml4 symbol-label">{{ selectedSymbol$ | async }}</div>
+        <button
+          #refreshButton
+          [disabled]="(selectedSymbol$ | async) === ''"
+          class="button ml4"
+        >
+          Get new price
+        </button>
+      </div>
+      <app-realtime-price
+        [userStockPrice$]="newStockPrice$"
+      ></app-realtime-price>
+    </ng-container>
   </ng-container>
   <div class="flex-col mla">
     <app-stock-name [stockName]="stockName"></app-stock-name>

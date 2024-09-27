@@ -12,4 +12,5 @@ import { StockRealtimeType } from '../../models';
 })
 export class RealtimePriceComponent {
   @Input() public stockRealtime$: Observable<StockRealtimeType> = new Observable<StockRealtimeType>();
+  @Input() public userStockPrice$!: Observable<number>;
 }

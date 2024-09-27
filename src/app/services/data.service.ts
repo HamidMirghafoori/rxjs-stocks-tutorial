@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, mergeMap, Observable } from 'rxjs';
+import { forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import {
   realtimePriceUrl,
   serverUrl,
@@ -51,6 +51,8 @@ export class DataService {
   }
 
   public getRealtimePrice(symbol: string): Observable<number> {
+    if (symbol === '') return of(0);
+    
     const apiUrl = serverUrl + realtimePriceUrl;
     return this.http.get<number>(`${apiUrl}/${symbol}`);
   }

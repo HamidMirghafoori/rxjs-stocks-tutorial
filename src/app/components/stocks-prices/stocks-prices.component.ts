@@ -3,8 +3,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -13,7 +15,10 @@ import {
   concatMap,
   delay,
   filter,
+  fromEvent,
+  interval,
   map,
+  merge,
   mergeMap,
   Observable,
   of,
@@ -22,7 +27,7 @@ import {
   Subject,
   Subscription,
   switchMap,
-  tap
+  tap,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -59,6 +64,8 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
   styleUrl: './stocks-prices.component.css',
 })
 export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('refreshButton') refreshButton!: ElementRef<HTMLButtonElement>;
+
   public options: string[] = [
     'All',
     'Map',
@@ -67,6 +74,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     'combineLatest',
     'concat/concatMap',
     'tap/filter',
+    'fromEvent',
   ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = new Observable<
@@ -95,11 +103,16 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public stockPricesMapped$!: Observable<StocksType[]>;
   private fetchData$ = new BehaviorSubject<void>(undefined);
   public minRange: number = 0;
-  public maxRange: number = 100;
+  public maxRange: number = 600;
   public currentRange$ = new BehaviorSubject<number | null>(this.maxRange);
   public allSectors$!: Observable<string[]>;
   private selectedSector$ = new BehaviorSubject<string>('');
   private clickedStock$ = new BehaviorSubject<StocksType | null>(null);
+  public selectedSymbol$ = new BehaviorSubject<string>('');
+  public userRefresh$!: Observable<Event>;
+  public systemRefresh$: Observable<number> = interval(8000);
+  private refreshTriggered$!: Observable<number | Event>;
+  public newStockPrice$!: Observable<number>;
 
   public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
     switchMap((filter) => {
@@ -231,6 +244,22 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngAfterViewInit(): void {
     this.selectedOption$.next('All');
     this.cdr.detectChanges();
+
+    // we needed to have our logic here because refresh button is not rendered to be selected
+    this.selectedSymbol$.subscribe((symbol) => {
+      if (symbol !== '') {
+        this.userRefresh$ = fromEvent(
+          this.refreshButton.nativeElement,
+          'click'
+        );
+        this.refreshTriggered$ = merge(this.userRefresh$, this.systemRefresh$);
+        this.newStockPrice$ = this.refreshTriggered$.pipe(
+          switchMap(() =>
+            this.dataService.getRealtimePrice(this.selectedSymbol$.value)
+          )
+        );
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -256,6 +285,10 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public onStockClicked(stock: StocksType): void {
     this.selectedStock$.next(stock);
   }
+
+  public onUserRefresh = (stock: StocksType): void => {
+    this.selectedSymbol$.next(stock.symbol);
+  };
 
   public onRealStockClicked = (stock: StocksType): void => {
     const realPrice$ = this.dataService.getRealtimePrice(stock.symbol);
