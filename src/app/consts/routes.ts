@@ -5,5 +5,6 @@ export const stockListDelayedUrl: string = 'stocks-price-delayed';
 export const stockDetailsUrl: string = 'stock';
 export const stockSymbolsUrl: string = 'symbols';
 export const realtimePriceUrl: string = 'price';
+export const realtimePriceWithDelayUrl: string = 'delayed-price';
 export const stockHistoricBySymbols: string = 'stock-historic';
 export const stockNameBySymbols: string = 'stock-name';

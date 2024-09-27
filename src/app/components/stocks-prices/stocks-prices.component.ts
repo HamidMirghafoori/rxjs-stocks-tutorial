@@ -14,6 +14,7 @@ import {
   combineLatest,
   concatMap,
   delay,
+  exhaustMap,
   filter,
   fromEvent,
   interval,
@@ -254,8 +255,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
         );
         this.refreshTriggered$ = merge(this.userRefresh$, this.systemRefresh$);
         this.newStockPrice$ = this.refreshTriggered$.pipe(
-          switchMap(() =>
-            this.dataService.getRealtimePrice(this.selectedSymbol$.value)
+          // we can use mergeMap and switchMap to see the differences
+          exhaustMap(() =>
+            this.dataService.getRealtimePrice(this.selectedSymbol$.value, true)
           )
         );
       }
@@ -291,7 +293,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   public onRealStockClicked = (stock: StocksType): void => {
-    const realPrice$ = this.dataService.getRealtimePrice(stock.symbol);
+    const realPrice$ = this.dataService.getRealtimePrice(stock.symbol, true);
     of('Nasdaq', 'NYSE', 'LSE') // instead of having hardcoded values we can have them as markets$ here
       .pipe(
         concatMap((market) => {

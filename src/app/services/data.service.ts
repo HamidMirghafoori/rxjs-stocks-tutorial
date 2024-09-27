@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import {
   realtimePriceUrl,
+  realtimePriceWithDelayUrl,
   serverUrl,
   stockDetailsUrl,
   stockHistoricBySymbols,
@@ -50,10 +51,10 @@ export class DataService {
     return this.http.get<string>(`${apiUrl}/${symbol}`);
   }
 
-  public getRealtimePrice(symbol: string): Observable<number> {
+  public getRealtimePrice(symbol: string, withDelay: boolean): Observable<number> {
     if (symbol === '') return of(0);
-    
-    const apiUrl = serverUrl + realtimePriceUrl;
+
+    const apiUrl = serverUrl + (withDelay ? realtimePriceWithDelayUrl : realtimePriceUrl);
     return this.http.get<number>(`${apiUrl}/${symbol}`);
   }
 
