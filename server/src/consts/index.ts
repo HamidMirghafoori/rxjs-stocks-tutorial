@@ -336,7 +336,7 @@ export const stockDetails: { [symbol: string]: StockDetails } = {
     peRatio: 45.7,
     weekHigh52: 311.75,
     weekLow52: 300.66,
-    description: '',
+    description: 'Salesforce, Inc. is a leading cloud-based software company specializing in customer relationship management (CRM) solutions, empowering businesses to streamline sales, customer service, and marketing through innovative technology and a strong focus on customer success.',
   },
   PINS: {
     marketCap: 10.5,

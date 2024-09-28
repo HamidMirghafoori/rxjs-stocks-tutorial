@@ -13,14 +13,15 @@ import {
   priceRealtime,
   priceRealtimeWithDelay,
   root,
-  stockBySymbols,
+  stockDetailsBySymbols,
+  stockDetailsUrl,
   stockHistoric,
   stockHistoricBySymbols,
   stockNameBySymbols,
   stocksDelayed,
   stocksPrice,
   stocksPricePart2,
-  symbols,
+  symbols
 } from './routes';
 import { getRandomStocks, randomGain } from './utilities';
 
@@ -63,7 +64,11 @@ app.get(priceRealtimeWithDelay, (req, res) => {
   }, 2000);
 });
 
-app.get(stockBySymbols, (req, res) => {
+app.get(stockDetailsUrl, (req, res) => {
+    res.json(stockDetails);
+});
+
+app.get(stockDetailsBySymbols, (req, res) => {
   const symbol = req.params.symbol.toUpperCase();
   const stock = stockDetails?.[symbol];
 
