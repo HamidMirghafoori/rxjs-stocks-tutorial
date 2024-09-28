@@ -179,9 +179,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filteredStockDetails$ = this.searchDetail$.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      switchMap((searchInput) => 
+      switchMap((searchInput) =>
         this.dataService.getStockDetails().pipe(
-          map((stockDetails) => 
+          map((stockDetails) =>
             Object.entries(stockDetails).map(([symbol, details]) => ({
               symbol,
               ...details,
@@ -191,7 +191,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
             stockDetails.filter(
               (stock) =>
                 searchInput === '' ||
-                stock.description.toLowerCase().includes(searchInput.toLowerCase())
+                stock.description
+                  .toLowerCase()
+                  .includes(searchInput.toLowerCase())
             )
           )
         )
@@ -343,9 +345,9 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.clickedStock$.next(stock);
   };
 
-  public onStockClicked(stock: StocksType): void {
+  public onStockClicked = (stock: StocksType): void => {
     this.selectedStock$.next(stock);
-  }
+  };
 
   public onUserRefresh = (stock: StocksType): void => {
     this.selectedSymbol$.next(stock.symbol);
