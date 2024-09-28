@@ -13,6 +13,7 @@ import {
   BehaviorSubject,
   combineLatest,
   concatMap,
+  debounceTime,
   delay,
   exhaustMap,
   filter,
@@ -32,6 +33,7 @@ import {
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
+  StockDetailsFlatten,
   StockFullDetail,
   StockNameType,
   StockRealtimeType,
@@ -42,6 +44,7 @@ import { DataService } from '../../services';
 import { ChartComponent } from '../chart/chart.component';
 import { PageOptionsComponent } from '../page-options/page-options.component';
 import { RealtimePriceComponent } from '../realtime-price/realtime-price.component';
+import { StockDetailsListComponent } from '../stock-details-list/stock-details-list.component';
 import { StockDetailsComponent } from '../stock-details/stock-details.component';
 import { StockNameComponent } from '../stock-name/stock-name.component';
 import { StockStatsComponent } from '../stock-stats/stock-stats.component';
@@ -60,6 +63,7 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
     StockDetailsComponent,
     StockTop10Component,
     RealtimePriceComponent,
+    StockDetailsListComponent,
   ],
   templateUrl: './stocks-prices.component.html',
   styleUrl: './stocks-prices.component.css',
@@ -76,6 +80,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     'concat/concatMap',
     'tap/filter',
     'fromEvent',
+    'debounceTime',
   ];
   public filters: string[] = ['All', 'Positive', 'Negative', 'Flat'];
   public stockPrices$: Observable<StocksType[]> = new Observable<
@@ -99,6 +104,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public top10Stocks$: BehaviorSubject<StockFullDetail[]> = new BehaviorSubject(
     [] as StockFullDetail[]
   );
+  public stockDetails$!: Observable<StockDetailsFlatten[]>;
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
   public stockPricesMapped$!: Observable<StocksType[]>;
@@ -114,6 +120,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public systemRefresh$: Observable<number> = interval(8000);
   private refreshTriggered$!: Observable<number | Event>;
   public newStockPrice$!: Observable<number>;
+  private searchDetail$ = new BehaviorSubject<string>('');
+  public filteredStockDetails$: Observable<StockDetailsFlatten[]> = of([]);
 
   public filteredStocks$: Observable<StocksType[]> = this.selectedFilter$.pipe(
     switchMap((filter) => {
@@ -167,6 +175,49 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
+    this.filteredStockDetails$ = this.searchDetail$.pipe(
+      debounceTime(500),
+      switchMap((searchInput) => 
+        this.dataService.getStockDetails().pipe(
+          map((stockDetails) => 
+            Object.entries(stockDetails).map(([symbol, details]) => ({
+              symbol,
+              ...details,
+            }))
+          ),
+          map((stockDetails) =>
+            stockDetails.filter(
+              (stock) =>
+                searchInput === '' ||
+                stock.description.toLowerCase().includes(searchInput.toLowerCase())
+            )
+          )
+        )
+      )
+    );
+    // this solution will not call api in every change in search input comparing to above
+    // this.stockDetails$ = this.dataService.getStockDetails().pipe(
+    //   map((stockDetails) =>
+    //     Object.entries(stockDetails).map(([symbol, details]) => ({
+    //       symbol,
+    //       ...details,
+    //     }))
+    //   )
+    // );
+
+    // this.filteredStockDetails$ = combineLatest([
+    //   this.stockDetails$,
+    //   this.searchDetail$,
+    // ]).pipe(
+    //   map(([stockDetails, searchInput]) =>
+    //     stockDetails.filter(
+    //       (stock) =>
+    //         searchInput === '' ||
+    //         stock.description.toLowerCase().includes(searchInput.toLowerCase())
+    //     )
+    //   )
+    // );
+
     this.stockPrices$ = this.fetchData$.pipe(
       switchMap(() => this.dataService.getStocksList()),
       shareReplay()
@@ -228,6 +279,12 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
         changes: Math.round((stock.price - stock.lastPrice) * 100) / 100,
       } as StockStatType;
     });
+  }
+
+  public onSearchDetailChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const value = inputElement.value;
+    this.searchDetail$.next(value);
   }
 
   public onSectorChange(event: Event): void {

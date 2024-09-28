@@ -143,6 +143,15 @@
         [userStockPrice$]="newStockPrice$"
       ></app-realtime-price>
     </ng-container>
+    <ng-container *ngSwitchCase="'debounceTime'">
+      <div class="ml4">
+        <label for="filtering">Search descriptions: </label>
+        <input type="text" id="filtering" (input)="onSearchDetailChange($event)" />
+        <app-stock-details-list
+          [stockDetails$]="filteredStockDetails$"
+        ></app-stock-details-list>
+      </div>
+    </ng-container>
   </ng-container>
   <div class="flex-col mla">
     <app-stock-name [stockName]="stockName"></app-stock-name>

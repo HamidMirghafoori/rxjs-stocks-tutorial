@@ -4,14 +4,14 @@ import { forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import {
   realtimePriceUrl,
   realtimePriceWithDelayUrl,
-  serverUrl,
+  stockDetailsBySymbolUrl,
   stockDetailsUrl,
   stockHistoricBySymbols,
   stockListDelayedUrl,
   stockListPart2Url,
   stockListUrl,
   stockNameBySymbols,
-  stockSymbolsUrl,
+  stockSymbolsUrl
 } from '../consts/routes';
 import { StockDetails, StockFullDetail, StocksType } from '../models';
 
@@ -22,45 +22,41 @@ export class DataService {
   public constructor(private http: HttpClient) {}
 
   public getStocksList(): Observable<StocksType[]> {
-    const apiUrl = serverUrl + stockListUrl;
-    return this.http.get<StocksType[]>(apiUrl);
+    return this.http.get<StocksType[]>(stockListUrl);
   }
 
   public getStocksListPart2(): Observable<StocksType[]> {
-    const apiUrl = serverUrl + stockListPart2Url;
-    return this.http.get<StocksType[]>(apiUrl);
+    return this.http.get<StocksType[]>(stockListPart2Url);
   }
 
   public getStocksListDelayed(): Observable<StocksType[]> {
-    const apiUrl = serverUrl + stockListDelayedUrl;
-    return this.http.get<StocksType[]>(apiUrl);
+    return this.http.get<StocksType[]>(stockListDelayedUrl);
   }
 
-  public getStockDetails(symbol: string): Observable<StockDetails> {
-    const apiUrl = serverUrl + stockDetailsUrl;
-    return this.http.get<StockDetails>(`${apiUrl}/${symbol}`);
+  public getStockDetailsBySymbol(symbol: string): Observable<StockDetails> {
+    return this.http.get<StockDetails>(`${stockDetailsBySymbolUrl}/${symbol}`);
+  }
+
+  public getStockDetails(): Observable<StockDetails> {
+    return this.http.get<StockDetails>(stockDetailsUrl);
   }
 
   public getSymbolHistoricData(symbol: string): Observable<number[]> {
-    const apiUrl = serverUrl + stockHistoricBySymbols;
-    return this.http.get<number[]>(`${apiUrl}/${symbol}`);
+    return this.http.get<number[]>(`${stockHistoricBySymbols}/${symbol}`);
   }
 
   public getStockNameBySymbol(symbol: string): Observable<string> {
-    const apiUrl = serverUrl + stockNameBySymbols;
-    return this.http.get<string>(`${apiUrl}/${symbol}`);
+    return this.http.get<string>(`${stockNameBySymbols}/${symbol}`);
   }
 
   public getRealtimePrice(symbol: string, withDelay: boolean): Observable<number> {
     if (symbol === '') return of(0);
-
-    const apiUrl = serverUrl + (withDelay ? realtimePriceWithDelayUrl : realtimePriceUrl);
+    const apiUrl = (withDelay ? realtimePriceWithDelayUrl : realtimePriceUrl);
     return this.http.get<number>(`${apiUrl}/${symbol}`);
   }
 
   public getStockSymbols(): Observable<string[]> {
-    const apiUrl = serverUrl + stockSymbolsUrl;
-    return this.http.get<string[]>(apiUrl);
+    return this.http.get<string[]>(stockSymbolsUrl);
   }
 
   public getStockDetailInformation(): Observable<StockFullDetail[]> {
@@ -71,7 +67,7 @@ export class DataService {
       mergeMap((symbols) =>
         forkJoin(
           symbols.map((symbol) =>
-            this.getStockDetails(symbol).pipe(
+            this.getStockDetailsBySymbol(symbol).pipe(
               map((details) => ({ symbol, ...details } as StockFullDetail))
             )
           )

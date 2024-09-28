@@ -41,6 +41,15 @@ export interface StockDetails {
   description: string;
 }
 
+export interface StockDetailsFlatten {
+  symbol: string;
+  marketCap: number; //in billion
+  peRatio: number;
+  weekHigh52: number;
+  weekLow52: number;
+  description: string;
+}
+
 export interface StockFullDetail extends StockDetails {
 symbol: string;
 }

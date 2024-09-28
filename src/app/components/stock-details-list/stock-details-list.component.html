@@ -1,0 +1,6 @@
+<div class="" *ngIf="stockDetails$ | async as stockDetails">
+  <div class="" *ngFor="let stock of stockDetails">
+    <span class="symbol">{{ stock.symbol }}</span> :
+    <span class="description">{{ stock.description }}</span>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+.symbol {
+  width: 4rem;
+  font-weight: 800;
+  font-size: large;
+  color: rgb(44, 44, 174);
+}
+
+.description {
+  color: rgb(13, 60, 59);
+}
