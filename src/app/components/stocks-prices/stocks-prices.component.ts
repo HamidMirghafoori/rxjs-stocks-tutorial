@@ -15,6 +15,7 @@ import {
   concatMap,
   debounceTime,
   delay,
+  distinctUntilChanged,
   exhaustMap,
   filter,
   fromEvent,
@@ -177,6 +178,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngOnInit(): void {
     this.filteredStockDetails$ = this.searchDetail$.pipe(
       debounceTime(500),
+      distinctUntilChanged(),
       switchMap((searchInput) => 
         this.dataService.getStockDetails().pipe(
           map((stockDetails) => 
