@@ -57,6 +57,7 @@
       <ng-container
         *ngTemplateOutlet="combine; context: { clickHandler: onStockClicked }"
       ></ng-container>
+      <app-stock-details [stockDetails$]="stocksToCompare$"></app-stock-details>
     </ng-container>
     <ng-container *ngSwitchCase="'concat/concatMap'">
       <ng-container

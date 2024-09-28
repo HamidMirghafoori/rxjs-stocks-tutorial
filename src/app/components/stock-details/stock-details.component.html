@@ -1,1 +1,22 @@
-<p>stock-details works!</p>
+<div
+  class="stock-name flex-col border ml4"
+  *ngIf="stockDetails$ | async as stockDetails"
+>
+  <div class="card" *ngFor="let stock of stockDetails">
+    <div class="value">
+      <span class="label">Symbol:</span>{{ stock.symbol }}
+    </div>
+    <div class="value">
+      <span class="label">Market Cap:</span>{{ stock.marketCap }}
+    </div>
+    <div class="value">
+      <span class="label">peRatio:</span>{{ stock.peRatio }}
+    </div>
+    <div class="value">
+      <span class="label">52 week High:</span>{{ stock.weekHigh52 }}
+    </div>
+    <div class="value">
+      <span class="label">52 week Low:</span>{{ stock.weekLow52 }}
+    </div>
+  </div>
+</div>

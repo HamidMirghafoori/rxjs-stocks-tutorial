@@ -31,6 +31,7 @@ import {
   Subscription,
   switchMap,
   tap,
+  withLatestFrom,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -106,6 +107,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     [] as StockFullDetail[]
   );
   public stockDetails$!: Observable<StockDetailsFlatten[]>;
+  public stocksToCompare$: BehaviorSubject<StockDetailsFlatten[]> =
+    new BehaviorSubject<StockDetailsFlatten[]>([]);
   private subscription1: Subscription = new Subscription();
   private subscription2: Subscription = new Subscription();
   public stockPricesMapped$!: Observable<StocksType[]>;
@@ -270,12 +273,28 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     );
     this.findTop10();
     this.filteredStocks$.subscribe();
-    this.subscription1 = this.selectedStock$.subscribe((stock) => {
-      this.stockName = {
-        symbol: stock.symbol,
-        name: mockStockFullNames[stock.symbol],
-      } as StockNameType;
-    });
+    this.subscription1 = this.selectedStock$
+      .pipe(
+        tap((stock) => {
+          this.stockName = {
+            symbol: stock.symbol,
+            name: mockStockFullNames[stock.symbol],
+          } as StockNameType;
+        }),
+        switchMap((stock) =>
+          this.dataService.getStockDetailsBySymbol(stock.symbol).pipe(
+            withLatestFrom(this.stocksToCompare$),
+            tap(([details, stocksToCompare]) => {
+              const stockFlat = { symbol: stock.symbol, ...details };
+              const value = [stockFlat];
+              if (stocksToCompare.length > 0) value.push(stocksToCompare[0]);
+              this.stocksToCompare$.next(value);
+            })
+          )
+        )
+      )
+      .subscribe();
+
     this.subscription2 = this.selectedStock$.subscribe((stock) => {
       this.stockStat = {
         price: stock.price,

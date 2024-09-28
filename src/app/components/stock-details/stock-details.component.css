@@ -1,0 +1,19 @@
+.card {
+  border: 1px solid rgb(202, 186, 95);
+  margin-bottom: 1rem;
+  padding: 1rem;
+  width: 15rem;
+}
+
+.value {
+  color: rgb(6, 82, 117);
+  font-weight: 800;
+}
+
+.label {
+  display: inline-block;
+  color: black;
+  width: 8rem;
+  font-weight: 600;
+  font-size: small;
+}
