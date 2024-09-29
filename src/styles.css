@@ -46,6 +46,14 @@
   margin-bottom: auto;
 }
 
+.mb1 {
+  margin-bottom: 1rem;
+}
+
+.mb2 {
+  margin-bottom: 2rem;
+}
+
 .mla {
   margin-left: auto;
 }

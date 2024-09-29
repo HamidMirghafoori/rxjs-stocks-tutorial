@@ -18,6 +18,7 @@ import {
   distinctUntilChanged,
   exhaustMap,
   filter,
+  from,
   fromEvent,
   interval,
   map,
@@ -48,6 +49,7 @@ import { PageOptionsComponent } from '../page-options/page-options.component';
 import { RealtimePriceComponent } from '../realtime-price/realtime-price.component';
 import { StockDetailsListComponent } from '../stock-details-list/stock-details-list.component';
 import { StockDetailsComponent } from '../stock-details/stock-details.component';
+import { StockInfoComponent } from '../stock-info/stock-info.component';
 import { StockNameComponent } from '../stock-name/stock-name.component';
 import { StockStatsComponent } from '../stock-stats/stock-stats.component';
 import { StockTop10Component } from '../stock-top10/stock-top10.component';
@@ -66,6 +68,7 @@ import { StockTop10Component } from '../stock-top10/stock-top10.component';
     StockTop10Component,
     RealtimePriceComponent,
     StockDetailsListComponent,
+    StockInfoComponent,
   ],
   templateUrl: './stocks-prices.component.html',
   styleUrl: './stocks-prices.component.css',
@@ -92,6 +95,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     StocksType[]
   >();
   public allStocks$: Observable<StocksType[]> = new Observable<StocksType[]>();
+  public randomStocks$: Observable<StocksType> = new Observable<StocksType>();
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   public stockRealtime$: BehaviorSubject<StockRealtimeType> =
@@ -252,6 +256,18 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
           currentRange ? stock.price < currentRange : true
         )
       )
+    );
+
+    this.randomStocks$ = this.allStocks$.pipe(
+      switchMap((stocks) => {
+        const randomStock = [];
+        for (let i = 0; i < 10; i++) {
+          randomStock.push(stocks[Math.floor(Math.random() * stocks.length)]);
+        }
+        return from(randomStock).pipe(
+          concatMap((stock) => of(stock).pipe(delay(1000)))
+        );
+      })
     );
 
     this.allSectors$ = this.allStocks$.pipe(
