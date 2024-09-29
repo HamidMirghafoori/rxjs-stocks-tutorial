@@ -22,6 +22,7 @@ import {
   from,
   fromEvent,
   interval,
+  last,
   map,
   merge,
   mergeMap,
@@ -99,6 +100,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   public allStocks$: Observable<StocksType[]> = new Observable<StocksType[]>();
   public randomStocks$: Observable<StocksType> = new Observable<StocksType>();
   public firstRandomStocks$: Observable<StocksType> =
+    new Observable<StocksType>();
+  public lastRandomStocks$: Observable<StocksType> =
     new Observable<StocksType>();
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
@@ -276,6 +279,7 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     this.firstRandomStocks$ = this.randomStocks$.pipe(first());
+    this.lastRandomStocks$ = this.randomStocks$.pipe(last());
 
     this.allSectors$ = this.allStocks$.pipe(
       map((stocks) => [...new Set(stocks.map((stock) => stock.sector))])

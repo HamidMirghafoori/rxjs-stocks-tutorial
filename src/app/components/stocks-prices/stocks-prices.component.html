@@ -72,6 +72,10 @@
           [stock$]="firstRandomStocks$"
           label="The first suggestion"
         ></app-stock-info>
+        <app-stock-info
+          [stock$]="lastRandomStocks$"
+          label="The last suggestion"
+        ></app-stock-info>
       </div>
       <app-realtime-price
         [stockRealtime$]="stockRealtime$"
