@@ -1,0 +1,84 @@
+.marble-box {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid rgb(202, 186, 95);
+  border-radius: 4px;
+  padding: 1rem;
+  height: 4rem;
+}
+
+.circle {
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid rgb(38, 33, 3);
+  font-weight: 800;
+  justify-content: center;
+  align-items: center;
+  margin-right: 3rem;
+}
+
+.circle0 {
+  background-color: rgb(255, 28, 3);
+}
+.circle1 {
+  background-color: rgb(231, 174, 67);
+}
+.circle2 {
+  background-color: rgb(173, 179, 240);
+}
+.circle3 {
+  background-color: rgb(71, 194, 67);
+}
+.circle4 {
+  background-color: rgb(255, 251, 0);
+}
+.circle5 {
+  background-color: rgb(12, 162, 226);
+}
+.circle6 {
+  background-color: rgb(180, 202, 37);
+}
+.circle7 {
+  background-color: rgb(226, 12, 197);
+}
+.circle8 {
+  background-color: rgb(12, 226, 226);
+}
+.circle9 {
+  background-color: rgb(255, 241, 160);
+}
+
+.hidden {
+  display: none;
+}
+
+.complete {
+  margin-top: -1rem;
+  margin-left: -4rem;
+  width: 1px;
+  height: 4rem;
+  border: 1px solid rgba(0, 0, 0, 0.467);
+}
+
+.command {
+  display: flex;
+  border: 1px solid rgb(32, 14, 121);
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: rgba(99, 127, 127, 0.384);
+  text-transform: capitalize;
+  font-weight: 800;
+  font-size: larger;
+}
+
+.repeat {
+  margin-left: auto;
+  padding: 0 3rem;
+  font-weight: 700;
+
+}

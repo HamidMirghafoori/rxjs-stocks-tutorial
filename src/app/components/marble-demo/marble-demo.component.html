@@ -1,0 +1,19 @@
+<div class="marble-container" *ngIf="command !== ''">
+  <div class="command">{{ command }}</div>
+  <ng-container [ngSwitch]="command">
+    <ng-container *ngSwitchCase="'range'">
+      <div class="marble-box">
+        <div
+          class="circle"
+          [class.hidden]="!circle"
+          [ngClass]="circleColors[i % 10]"
+          *ngFor="let circle of source1; let i = index"
+        >
+          {{ i }}
+        </div>
+        <div class="complete" [class.hidden]="!complete"></div>
+        <button class="repeat" (click)="runNumbers()" [disabled]="!complete">Repeat</button>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

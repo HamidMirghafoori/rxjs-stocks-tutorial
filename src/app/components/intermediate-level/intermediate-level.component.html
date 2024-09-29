@@ -1,0 +1,6 @@
+<div class="flex-row mb1">
+  <div class="label">Speed:</div>
+  <input type="range" min="0" max="2000" step="50" class="speed" [(ngModel)]="speed">
+  <div class="speed-val">{{speed}}</div>
+</div>
+<app-marble-demo [command]="command" [speed]="speed" [number$]="range$"></app-marble-demo>

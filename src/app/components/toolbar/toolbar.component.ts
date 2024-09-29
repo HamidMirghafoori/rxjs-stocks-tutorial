@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 export class ToolbarComponent {
   public toolbarButtons = [
     { caption: 'Home', action: () => this.home() },
-    { caption: 'Stocks List', action: () => this.stockPrice() },
+    { caption: 'Beginner', action: () => this.beginner() },
+    { caption: 'Intermediate', action: () => this.intermediate() },
   ];
 
   constructor(private router: Router) {}
@@ -21,7 +22,11 @@ export class ToolbarComponent {
     this.router.navigate(['']);
   }
 
-  private stockPrice() {
-    this.router.navigate(['/stock-prices']);
+  private beginner() {
+    this.router.navigate(['/beginner']);
+  }
+
+  private intermediate() {
+    this.router.navigate(['/intermediate']);
   }
 }
