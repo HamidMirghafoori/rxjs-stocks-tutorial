@@ -66,7 +66,13 @@
           context: { clickHandler: onRealStockClicked }
         "
       ></ng-container>
-      <app-stock-info [stock$]="randomStocks$"></app-stock-info>
+      <div class="flex-col">
+        <app-stock-info [stock$]="randomStocks$"></app-stock-info>
+        <app-stock-info
+          [stock$]="firstRandomStocks$"
+          label="The first suggestion"
+        ></app-stock-info>
+      </div>
       <app-realtime-price
         [stockRealtime$]="stockRealtime$"
       ></app-realtime-price>
@@ -148,7 +154,11 @@
     <ng-container *ngSwitchCase="'debounceTime'">
       <div class="ml4">
         <label for="filtering">Search descriptions: </label>
-        <input type="text" id="filtering" (input)="onSearchDetailChange($event)" />
+        <input
+          type="text"
+          id="filtering"
+          (input)="onSearchDetailChange($event)"
+        />
         <app-stock-details-list
           [stockDetails$]="filteredStockDetails$"
         ></app-stock-details-list>

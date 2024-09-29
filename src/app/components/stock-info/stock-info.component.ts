@@ -8,8 +8,9 @@ import { StocksType } from '../../models';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './stock-info.component.html',
-  styleUrl: './stock-info.component.css'
+  styleUrl: './stock-info.component.css',
 })
 export class StockInfoComponent {
-@Input() public stock$!: Observable<StocksType>;
+  @Input() public stock$!: Observable<StocksType>;
+  @Input() public label: string = 'Suggested Stocks';
 }

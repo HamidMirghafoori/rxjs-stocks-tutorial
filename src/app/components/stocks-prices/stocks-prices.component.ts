@@ -18,6 +18,7 @@ import {
   distinctUntilChanged,
   exhaustMap,
   filter,
+  first,
   from,
   fromEvent,
   interval,
@@ -32,7 +33,7 @@ import {
   Subscription,
   switchMap,
   tap,
-  withLatestFrom,
+  withLatestFrom
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -96,6 +97,8 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
   >();
   public allStocks$: Observable<StocksType[]> = new Observable<StocksType[]>();
   public randomStocks$: Observable<StocksType> = new Observable<StocksType>();
+  public firstRandomStocks$: Observable<StocksType> =
+    new Observable<StocksType>();
   public stockName: StockNameType = { name: '', symbol: '' };
   public stockStat: StockStatType = { price: 0, lastPrice: 0, changes: 0 };
   public stockRealtime$: BehaviorSubject<StockRealtimeType> =
@@ -261,14 +264,19 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     this.randomStocks$ = this.allStocks$.pipe(
       switchMap((stocks) => {
         const randomStock = [];
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
           randomStock.push(stocks[Math.floor(Math.random() * stocks.length)]);
         }
+        console.log(randomStock)
         return from(randomStock).pipe(
           concatMap((stock) => of(stock).pipe(delay(1000)))
         );
-      })
+      }),
+      // to avoid recalculating every time we use randomStocks$
+      shareReplay()
     );
+
+    this.firstRandomStocks$ = this.randomStocks$.pipe(first());
 
     this.allSectors$ = this.allStocks$.pipe(
       map((stocks) => [...new Set(stocks.map((stock) => stock.sector))])

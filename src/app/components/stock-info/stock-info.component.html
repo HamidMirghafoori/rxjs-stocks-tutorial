@@ -1,4 +1,4 @@
-<div class="ml4 mb1">Suggested Stocks:</div>
+<div class="ml4 mb1 mt1" *ngIf="stock$ | async">{{label}}:</div>
 <div class="card ml4" *ngIf="stock$ | async as stock">
   <div class="symbol"><span class="label">Symbol:</span>{{ stock.symbol }}</div>
   <div class="price"><span class="label">Price:</span>{{ stock.price }}</div>
