@@ -32,8 +32,9 @@ import {
   Subject,
   Subscription,
   switchMap,
+  take,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs';
 import { mockStockFullNames } from '../../consts';
 import {
@@ -262,17 +263,15 @@ export class StocksPricesComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     this.randomStocks$ = this.allStocks$.pipe(
-      switchMap((stocks) => {
-        const randomStock = [];
-        for (let i = 0; i < 5; i++) {
-          randomStock.push(stocks[Math.floor(Math.random() * stocks.length)]);
-        }
-        console.log(randomStock)
-        return from(randomStock).pipe(
+      switchMap((stocks) =>
+        from(stocks).pipe(
+          map(() => stocks[Math.floor(Math.random() * stocks.length)]),
           concatMap((stock) => of(stock).pipe(delay(1000)))
-        );
-      }),
-      // to avoid recalculating every time we use randomStocks$
+        )
+      ),
+      // because shareReplay had conflict with last() operator (due to delay completion couldn't detect by last())
+      // we use take() operator which will complete the observable after taking 5 emissions
+      take(5),
       shareReplay()
     );
 
