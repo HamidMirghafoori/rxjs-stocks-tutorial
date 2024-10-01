@@ -16,4 +16,8 @@ export class ReferenceComponent {
   public range$!: Observable<number>;
 
   ngOnInit(): void {}
+  
+  private range() {
+    // range() Question: create an observable that generates range of numbers from 0 to 9
+  }
 }
