@@ -10,6 +10,7 @@ import {
   stockSymbols,
 } from './consts';
 import {
+  errorUrl,
   priceRealtime,
   priceRealtimeWithDelay,
   root,
@@ -66,6 +67,10 @@ app.get(priceRealtimeWithDelay, (req, res) => {
 
 app.get(stockDetailsUrl, (req, res) => {
     res.json(stockDetails);
+});
+
+app.get(errorUrl, (req, res) => {
+  res.status(500).send('Internal Server Error');
 });
 
 app.get(stockDetailsBySymbols, (req, res) => {
