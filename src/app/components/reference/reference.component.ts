@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, range } from 'rxjs';
 import { MarbleDemoComponent } from '../marble-demo/marble-demo.component';
 
 @Component({
@@ -15,9 +15,12 @@ export class ReferenceComponent {
   public speed: number = 500;
   public range$!: Observable<number>;
 
-  ngOnInit(): void {}
-  
+  ngOnInit(): void {
+    this.range();
+  }
+
   private range() {
     // range() Question: create an observable that generates range of numbers from 0 to 9
+    this.range$ = range(10);
   }
 }
