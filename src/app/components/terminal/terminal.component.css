@@ -1,0 +1,17 @@
+:host {
+  margin-top: auto;
+  width: 100%;
+}
+
+.terminal {
+  background-color: #252525;
+  color: #0f0;
+  padding: 10px;
+  font-family: monospace;
+  height: 250px;
+  overflow-y: auto;
+}
+
+.log-entry {
+  white-space: pre-wrap;
+}

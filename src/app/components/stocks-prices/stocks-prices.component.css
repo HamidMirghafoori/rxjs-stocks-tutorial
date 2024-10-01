@@ -1,3 +1,7 @@
+:host {
+width: 100%;
+}
+
 .stock-item {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -8,6 +8,15 @@
   padding: 0px;
 }
 
+body, html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 .border {
   border: 1px solid white;
 }
