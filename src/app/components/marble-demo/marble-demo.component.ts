@@ -24,6 +24,10 @@ export class MarbleDemoComponent implements OnInit {
   }
 
   public runNumbers() {
+    if (!this.number$) {
+      return;
+    }
+    
     this.source1 = new Array(10).fill(false);
     this.complete = false;
 

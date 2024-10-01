@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, map, mergeMap, Observable, of } from 'rxjs';
 import {
+  errorUrl,
   realtimePriceUrl,
   realtimePriceWithDelayUrl,
   stockDetailsBySymbolUrl,
@@ -11,7 +12,7 @@ import {
   stockListPart2Url,
   stockListUrl,
   stockNameBySymbols,
-  stockSymbolsUrl
+  stockSymbolsUrl,
 } from '../consts/routes';
 import { StockDetails, StockFullDetail, StocksType } from '../models';
 
@@ -20,6 +21,10 @@ import { StockDetails, StockFullDetail, StocksType } from '../models';
 })
 export class DataService {
   public constructor(private http: HttpClient) {}
+
+  public catchError(): Observable<string> {
+    return this.http.get<string>(errorUrl);
+  }
 
   public getStocksList(): Observable<StocksType[]> {
     return this.http.get<StocksType[]>(stockListUrl);
@@ -49,9 +54,12 @@ export class DataService {
     return this.http.get<string>(`${stockNameBySymbols}/${symbol}`);
   }
 
-  public getRealtimePrice(symbol: string, withDelay: boolean): Observable<number> {
+  public getRealtimePrice(
+    symbol: string,
+    withDelay: boolean
+  ): Observable<number> {
     if (symbol === '') return of(0);
-    const apiUrl = (withDelay ? realtimePriceWithDelayUrl : realtimePriceUrl);
+    const apiUrl = withDelay ? realtimePriceWithDelayUrl : realtimePriceUrl;
     return this.http.get<number>(`${apiUrl}/${symbol}`);
   }
 

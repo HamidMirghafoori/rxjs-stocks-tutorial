@@ -8,13 +8,12 @@ import { MarbleDemoComponent } from '../marble-demo/marble-demo.component';
   standalone: true,
   imports: [FormsModule, MarbleDemoComponent],
   templateUrl: './reference.component.html',
-  styleUrl: './reference.component.css'
+  styleUrl: './reference.component.css',
 })
 export class ReferenceComponent {
   public command: string = 'range';
   public speed: number = 500;
   public range$!: Observable<number>;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }
