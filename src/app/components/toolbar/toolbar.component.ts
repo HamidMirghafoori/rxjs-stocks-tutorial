@@ -14,6 +14,7 @@ export class ToolbarComponent {
     { caption: 'Home', action: () => this.home() },
     { caption: 'Beginner', action: () => this.beginner() },
     { caption: 'Intermediate', action: () => this.intermediate() },
+    { caption: 'Reference', action: () => this.reference() },
   ];
 
   constructor(private router: Router) {}
@@ -28,5 +29,9 @@ export class ToolbarComponent {
 
   private intermediate() {
     this.router.navigate(['/intermediate']);
+  }
+
+  private reference() {
+    this.router.navigate(['/reference']);
   }
 }
