@@ -5,7 +5,8 @@ import {
   interval,
   map,
   Observable,
-  of
+  of,
+  retry
 } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
@@ -43,6 +44,7 @@ export class IntermediateLevelComponent implements OnInit {
           }
           return value;
         }),
+        retry(2),
         catchError((err) => {
           console.log('Error caught: ', err);
           return of(-1);
