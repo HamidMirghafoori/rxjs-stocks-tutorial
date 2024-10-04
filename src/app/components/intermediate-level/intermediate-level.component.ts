@@ -28,7 +28,7 @@ export class IntermediateLevelComponent implements OnInit {
   /**
    * we are continuing from throwError branch with minor changes
    * now we want to continue the interval from 0 again after the error occurs by returning caught observable
-   * instead of the last value of -1, 
+   * instead of the last value of -1,
    * update the code to utilize returning caught and getting rid of returned -1 value
    */
   private catchError2() {
@@ -40,9 +40,9 @@ export class IntermediateLevelComponent implements OnInit {
           }
           return of(value);
         }),
-        catchError((err) => {
+        catchError((err, caught) => {
           console.log('Error caught: ', err);
-          return of(-1);
+          return caught;
         })
       )
       .subscribe((value) => console.log(value));
