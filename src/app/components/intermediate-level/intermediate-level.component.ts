@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, delay, Observable, of, retryWhen, take, tap } from 'rxjs';
 import { DataService, LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -29,6 +29,15 @@ export class IntermediateLevelComponent implements OnInit {
    */
   private retryWhen() {
     this.errorObservable$ = this.dataService.catchError().pipe(
+      retryWhen((errors) =>
+        errors.pipe(
+          tap((err) =>
+            console.log(`Error occurred: ${err.name} - ${err.error}`)
+          ),
+          delay(1000),
+          take(3)
+        )
+      ),
       catchError((err) => {
         return of(`${err.name} - ${err.error}`);
       })
