@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { catchError, interval, mergeMap, of, throwError } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -26,6 +27,19 @@ export class IntermediateLevelComponent implements OnInit {
    * Thus to have throwError in our code we have to use mergeMap to return observable of(value)
    */
   private throwError() {
-
+    interval(1000)
+      .pipe(
+        mergeMap((value) => {
+          if (value === 4) {
+            return throwError(() => 'We hit number 4!');
+          }
+          return of(value);
+        }),
+        catchError((err) => {
+          console.log('Error caught: ', err);
+          return of(-1);
+        })
+      )
+      .subscribe((value) => console.log(value));
   }
 }
