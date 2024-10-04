@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -12,10 +11,21 @@ import { TerminalComponent } from '../terminal/terminal.component';
   styleUrl: './intermediate-level.component.css',
 })
 export class IntermediateLevelComponent implements OnInit {
-  public errorObservable$!: Observable<string>;
   public constructor(private log: LogService) {}
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.throwError();
+  }
+
+  /**
+   * we have an interval of 1 seconds, we want to throw error at 5th second
+   * we will log a message and then as the last value for error state we will emit -1
+   * and then the stream will be completed
+   * note that because we wanted to use throwError() operator and map() is expected to return only value and throwError() is an observable.
+   * Thus to have throwError in our code we have to use mergeMap to return observable of(value)
+   */
+  private throwError() {
+
   }
 }
