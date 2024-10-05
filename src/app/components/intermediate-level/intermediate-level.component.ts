@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -12,7 +11,6 @@ import { TerminalComponent } from '../terminal/terminal.component';
   styleUrl: './intermediate-level.component.css',
 })
 export class IntermediateLevelComponent implements OnInit {
-  public errorObservable$!: Observable<string>;
   public constructor(private log: LogService) {}
 
   public ngOnInit(): void {
