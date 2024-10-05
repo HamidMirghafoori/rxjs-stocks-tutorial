@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { DataService, LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -29,5 +29,12 @@ export class IntermediateLevelComponent implements OnInit {
    * for now just log the error name and message: note error object has following interface
    * {name: string, error: string, ....}
    */
-  private catchError() {}
+  private catchError() {
+    this.errorObservable$ = this.dataService.catchError().pipe(
+      catchError((err) => {
+        return of(`${err.name} - ${err.error}`);
+      })
+    );
+    this.errorObservable$.subscribe((response) => console.log(response));
+  }
 }
