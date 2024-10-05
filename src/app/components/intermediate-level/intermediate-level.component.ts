@@ -15,5 +15,14 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.timeout();
+  }
+
+/**
+ * This is simple task, we want to create an observable that emits 'Hello' and then waits for a long time
+ * using timeout() we throw an error and message the timeout error so this way we could complete the observable 
+ */
+  private timeout() {
+
   }
 }
