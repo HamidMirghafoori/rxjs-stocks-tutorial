@@ -6,7 +6,8 @@ import {
   interval,
   mergeMap,
   of,
-  throwError
+  onErrorResumeNext,
+  throwError,
 } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
@@ -35,19 +36,21 @@ export class IntermediateLevelComponent implements OnInit {
    * Note that onErrorResumeNext() is stand-alone function and not an operator.
    */
   private onErrorResumeNext() {
-    interval(1000)
-      .pipe(
-        mergeMap((value) => {
-          if (value === 4) {
-            return throwError(() => 'We hit number 4!');
-          }
-          return of(value);
-        }),
-        catchError((err) => {
-          console.log('Error caught: ', err);
-          return of(-1);
-        })
-      )
-      .subscribe((value) => console.log(value));
+    const source$ = interval(1000).pipe(
+      mergeMap((value) => {
+        if (value === 4) {
+          return throwError(() => 'We hit number 4!');
+        }
+        return of(value);
+      }),
+      catchError((error)=>{
+        console.log(error)
+        return of(); // we need to return an empty observable because catchError needs a return an observable to keep stream continue
+      })
+    );
+
+    onErrorResumeNext(source$, this.weekDays$).subscribe((value) =>
+      console.log(value)
+    );
   }
 }
