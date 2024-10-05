@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { catchError, delay, Observable, of, retryWhen, take, tap } from 'rxjs';
+import {
+  catchError,
+  delay,
+  finalize,
+  Observable,
+  of,
+  retryWhen,
+  take,
+  tap,
+} from 'rxjs';
 import { DataService, LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -13,7 +22,11 @@ import { TerminalComponent } from '../terminal/terminal.component';
 })
 export class IntermediateLevelComponent implements OnInit {
   public errorObservable$!: Observable<string>;
-  public constructor(private log: LogService, private dataService: DataService) {}
+  public constructor(
+    private log: LogService,
+    private dataService: DataService
+  ) {}
+  private retries: number = 0;
 
   public ngOnInit(): void {
     this.log.clearLogs();
@@ -30,20 +43,23 @@ export class IntermediateLevelComponent implements OnInit {
    */
   private finalize() {
     this.errorObservable$ = this.dataService.catchError().pipe(
-      retryWhen((errors) =>
-        {
-          return errors.pipe(
-            tap((err) => console.log(`Error occurred: ${err.name} - ${err.error}`)
-            ),
-            delay(1000),
-            take(3)
-          );
-        }
-      ),
+      retryWhen((errors) => {
+        return errors.pipe(
+          tap((err) => {
+            console.log(`Error occurred: ${err.name} - ${err.error}`);
+            this.retries++;
+          }),
+          delay(1000),
+          take(3)
+        );
+      }),
       catchError((err) => {
         return of(`${err.name} - ${err.error}`);
       }),
-
+      finalize(() => {
+        console.log(`We tried ${this.retries} times and still the api failed!`);
+        this.retries = 0;
+      })
     );
     this.errorObservable$.subscribe((response) => console.log(response));
   }
