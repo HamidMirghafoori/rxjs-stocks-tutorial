@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -11,6 +12,8 @@ import { TerminalComponent } from '../terminal/terminal.component';
   styleUrl: './intermediate-level.component.css',
 })
 export class IntermediateLevelComponent implements OnInit {
+  private multiCaster$: BehaviorSubject<number> = new BehaviorSubject(3);
+
   public constructor(private log: LogService) {}
 
   public ngOnInit(): void {
@@ -32,5 +35,16 @@ export class IntermediateLevelComponent implements OnInit {
      * complete the multiCaster$ and emit value 100, and observe what happens
      * We can see each subscription receives the latest emitted value before its subscription
      */
+    console.log('Before subscription 1.')
+    this.multiCaster$.subscribe(value => console.log('Subscriber 1 received: ', value));
+    this.multiCaster$.next(4);
+    console.log('Before subscription 2.')
+    this.multiCaster$.subscribe(value => console.log('Subscriber 2 received: ', value));
+    this.multiCaster$.next(17);
+    console.log('Before subscription 3.')
+    this.multiCaster$.subscribe(value => console.log('Subscriber 3 received: ', value));
+    this.multiCaster$.next(9);
+    this.multiCaster$.complete();
+    this.multiCaster$.next(100);
   }
 }
