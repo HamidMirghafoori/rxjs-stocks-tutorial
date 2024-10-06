@@ -7,4 +7,9 @@
 <div class="info">create 2nd subscriber and emit value 22</div>
 <div class="info">create 3rd subscriber and emit value 7</div>
 <div class="info">Complete the subject and emit value 100 and observe what happens.</div>
+<div class="title">Note that:</div>
+<div class="info">After the subject is completed, calling next() (or error()) will not have any effect.</div>
+<div class="info">The observable is terminated, and further emissions are ignored.</div>
+<div class="info">This is part of the RxJS specification: once an observable completes,</div>
+<div class="info">it is in a "final state" and cannot emit more values or errors.</div>
 <app-terminal></app-terminal>
