@@ -1,3 +1,13 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">behaviorSubject</div>
+<div class="info">We want to create a behaviorSubject named multiCaster$ with default value 3</div>
+<div class="info">then three subscribers with full signature which</div>
+<div class="info">each has identifiable log to relate log to the subscription.</div>
+<div class="info">Every time we emit new value we like to see subscribers logged the value</div>
+<div class="title">Steps to take: </div>
+<div class="info">before each subscription have a console.log such as 'Before subscription 1' and so on.</div>
+<div class="info">create 1st subscriber then emit value 4</div>
+<div class="info">create 2nd subscriber and emit value 17</div>
+<div class="info">create 3rd subscriber and emit value 9</div>
+<div class="info">complete the multiCaster$ and emit value 100, and observe what happens</div>
+<div class="info">We can see each subscription receives the latest emitted value before its subscription</div>
 <app-terminal></app-terminal>
