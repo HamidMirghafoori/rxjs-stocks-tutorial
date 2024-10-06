@@ -8,8 +8,18 @@
 .title {
   font-weight: 800;
   margin-bottom: 1rem;
-  }
-  
-  .info {
-    margin-bottom: 1rem;
-  }
+}
+
+.info {
+  margin-bottom: 1rem;
+}
+
+.commands {
+  margin-top: auto;
+}
+
+.messageBtn {
+  width: 10rem;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+}

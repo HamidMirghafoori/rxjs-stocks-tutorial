@@ -1,3 +1,34 @@
 <div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">Question 2: subject as eventEmitter</div>
+<div class="info">
+  Minimal subject.service file with required html are provided.
+</div>
+<div class="info">in the service file create a private eventSubject$</div>
+<div class="info">Add two public methods:</div>
+<div class="info">1- emitEvent() which will accepts a string to be emitted</div>
+<div class="info">
+  2- a getter function get events$() which will return the observable part of
+  our subject
+</div>
+<div class="info">
+  Inject the service in this file and create two subscriptions to it and log the
+  message with
+</div>
+<div class="info">
+  unique log prefix so we can identify which message comes from which
+  subscription
+</div>
+<div class="info">
+  Create two public methods named message1 and message2 and assign them to two
+  buttons
+</div>
+<div class="info">
+  on our template respectively. Click on buttons, you should see both
+  subscriptions are logging the message.
+</div>
+
+<div class="commands">
+  <button class="messageBtn">Message 1</button>
+  <button class="messageBtn">Message 2</button>
+</div>
 <app-terminal></app-terminal>
