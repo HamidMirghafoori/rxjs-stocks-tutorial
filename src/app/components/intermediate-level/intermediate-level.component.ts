@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LogService } from '../../services';
+import { LogService, SubjectService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
 @Component({
@@ -12,12 +12,21 @@ import { TerminalComponent } from '../terminal/terminal.component';
 })
 export class IntermediateLevelComponent implements OnInit {
   public constructor(
-    private log: LogService
+    private log: LogService,
+    private subjectService: SubjectService
   ) {}
 
   public ngOnInit(): void {
     this.log.clearLogs();
     this.subject();
+  }
+
+  public message1() {
+    this.subjectService.emitEvent('Message 1 received!')
+  }
+
+  public message2() {
+    this.subjectService.emitEvent('Message 2 received!')
   }
 
   private subject() {
@@ -33,5 +42,7 @@ export class IntermediateLevelComponent implements OnInit {
      * Create two public methods named message1 and message2 and assign them to two buttons
      * on our template respectively. Click on buttons, you should see both subscriptions are logging the message.
      */
+    this.subjectService.events$.subscribe((message) => console.log('Subscriber 1: ',message));
+    this.subjectService.events$.subscribe((message) => console.log('Subscriber 2: ',message));
   }
 }
