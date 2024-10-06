@@ -15,5 +15,15 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.subscribe();
+  }
+
+  /**
+   * To practice subscribe we will build two observables, because when error happens complete callback won't be called
+   * 1 - Create an observable that throws error, or just use previous tasks to start and implement full signature of subscribe to log the error
+   * 2 - Create an observable that emits some values and finally completes, implement full signature of subscribe.
+   */
+  private subscribe() {
+    
   }
 }
