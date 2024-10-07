@@ -16,4 +16,12 @@
 <div class="info">
   complete the multiCaster$ and emit value 100, and observe what happens
 </div>
+<div class="info">
+  Note that: After the multiCaster$ is completed, calling next() (or error())
+  will not have any effect.
+</div>
+<div class="info">
+  Also observe nothing is logged on subscription, only after completion
+  multiCaster$ will emit the last value
+</div>
 <app-terminal></app-terminal>
