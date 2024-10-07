@@ -1,3 +1,11 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">combineLatest</div>
+<div class="info">define 4 observables as following:</div>
+<div class="info">source$1, interval of 100, take 20 and finalize with log that it has completed</div>
+<div class="info">source$2, interval of 500 with first delay of 1000, take 3 and finalize with log that it has completed</div>
+<div class="info">source$3, interval of 400, take 10 and finalize with log that it has completed</div>
+<div class="info">source$4, same as source$2 but it checks the values if value===2 then throws an error</div>
+<div class="info">then subscribe to all of them separately and log the value but comment them out.</div>
+<div class="info">use combineLatest to combine first 3 sources and subscribe to it with full signature </div>
+<div class="info">  and proper message for each callback</div>
+<div class="info">Note how the values are emitted from combineLatest()</div>
 <app-terminal></app-terminal>
