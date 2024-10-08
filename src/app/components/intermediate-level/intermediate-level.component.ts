@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { delay, finalize, from, Observable } from 'rxjs';
+import { combineLatestWith, delay, finalize, from, Observable } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -39,7 +39,7 @@ export class IntermediateLevelComponent implements OnInit {
     delay(1000),
     finalize(() => console.log('Songs completed'))
   );
-  
+
   public constructor(private log: LogService) {}
 
   public ngOnInit(): void {
@@ -55,5 +55,10 @@ export class IntermediateLevelComponent implements OnInit {
      * Note the only difference is the type of source, in combineLatestAll we have observable of observables of(....)
      */
 
+    this.songs$
+      .pipe(combineLatestWith(this.books$, this.movies$))
+      .subscribe((w) => {
+        console.log(w);
+      });
   }
 }
