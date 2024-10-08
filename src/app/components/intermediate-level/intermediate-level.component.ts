@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { combineLatestAll, delay, finalize, from, Observable, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +28,19 @@ export class IntermediateLevelComponent implements OnInit {
   ];
   private songs: string[] = ['Hello', 'Imagine', 'Roar', 'Hurt', 'Yellow'];
 
+  private movies$: Observable<string> = from(this.movies).pipe(
+    delay(3500),
+    finalize(() => console.log('Movies completed'))
+  );
+  private books$: Observable<string> = from(this.books).pipe(
+    delay(2000),
+    finalize(() => console.log('Books completed'))
+  );
+  private songs$: Observable<string> = from(this.songs).pipe(
+    delay(1000),
+    finalize(() => console.log('Songs completed'))
+  );
+
   public ngOnInit(): void {
     this.log.clearLogs();
     this.combineLatestAll();
@@ -38,7 +52,7 @@ export class IntermediateLevelComponent implements OnInit {
      * movies$ with delay 3500, and log a message that movies$ has completed
      * books$ with delay 2000, and log a message that books$ has completed
      * songs$ with delay 1000, and log a message that songs$ has completed
-     * create observable using these 3 newly created with of() operator 
+     * create observable using these 3 newly created with of() operator
      * To have the final data of this array of observables we want to use combineLatestAll to
      * subscrive to all three observables in a way that when all 3 has completed, we have the final data
      * and finally we want to log each type of lists separately.
@@ -48,5 +62,10 @@ export class IntermediateLevelComponent implements OnInit {
      * we will have new emit of updates state of all observables
      */
 
+    of(this.songs$, this.books$, this.movies$)
+      .pipe(combineLatestAll())
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }
