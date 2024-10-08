@@ -12,8 +12,41 @@ import { TerminalComponent } from '../terminal/terminal.component';
 })
 export class IntermediateLevelComponent implements OnInit {
   public constructor(private log: LogService) {}
+  private movies: string[] = [
+    'Inception',
+    'The Dark Knight',
+    'Interstellar',
+    'Dunkirk',
+  ];
+  private books: string[] = [
+    'Beloved',
+    'Siddhartha',
+    'Dune',
+    'Inferno',
+    'Frankenstein',
+  ];
+  private songs: string[] = ['Hello', 'Imagine', 'Roar', 'Hurt', 'Yellow'];
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.combineLatestAll();
+  }
+
+  public combineLatestAll() {
+    /**
+     * Using 3 given lists create 3 observables using from() as following:
+     * movies$ with delay 3500, and log a message that movies$ has completed
+     * books$ with delay 2000, and log a message that books$ has completed
+     * songs$ with delay 1000, and log a message that songs$ has completed
+     * create observable using these 3 newly created with of() operator 
+     * To have the final data of this array of observables we want to use combineLatestAll to
+     * subscrive to all three observables in a way that when all 3 has completed, we have the final data
+     * and finally we want to log each type of lists separately.
+     * Note that we have created 3 observables and then another observable that is array of those 3
+     * check how combineLatestAll waits for all three and then emits the result
+     * we will see the latest value of the first observable which completes then with each emission from others
+     * we will have new emit of updates state of all observables
+     */
+
   }
 }
