@@ -4,3 +4,16 @@
   height: 100%;
   width: 100%;
 }
+
+.title {
+  font-weight: 800;
+  margin-bottom: 1rem;
+  }
+  
+  .info {
+    margin-bottom: 1rem;
+  }
+
+  .indent {
+    padding-left: 1rem;
+  }
