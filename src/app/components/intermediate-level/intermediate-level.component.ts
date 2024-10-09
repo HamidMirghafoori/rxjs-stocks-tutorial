@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { bufferToggle, filter, fromEvent, interval, take, tap } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -37,5 +38,29 @@ export class IntermediateLevelComponent implements OnInit {
      * You can try open buffering and wait till source completes and observe the logged buffered values.
      */
    
+    const source$ = interval(200);
+    const toggle$ = fromEvent(document, 'click');
+    const openings$ = toggle$.pipe(
+      filter(() => {
+        this.clickCount++;
+        console.log('opening = ', this.clickCount % 2 === 1);
+        return this.clickCount % 2 === 1;
+      })
+    );
+
+    source$
+      .pipe(
+        take(50),
+        tap((value) => console.log('source=', value)),
+        bufferToggle(openings$, () =>
+          toggle$.pipe(
+            filter(() => {
+              console.log('closing:', this.clickCount % 2 === 0);
+              return this.clickCount % 2 === 0;
+            })
+          )
+        )
+      )
+      .subscribe((buffer) => console.log('Buffered values = ', buffer));
   }
 }
