@@ -1,3 +1,25 @@
 <div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="info">
+  To demonstrate bufferCount() functionality we will create 3 observables as
+  following:
+</div>
+<div class="info">
+  interval of 200 which will pipe into bufferCount to buffer 3 emits and takes 4
+  buffers
+</div>
+<div class="info">and finally logs the observable has been completed</div>
+<div class="info">
+  the 2nd observable will have same structure only buffering 5 and
+  startBufferEvery of 3
+</div>
+<div class="info">
+  the 3rd observable will have same structure only buffering 3 and
+  startBufferEvery of 5
+</div>
+<div class="info">
+  then we want to executed each observable after the previous one is completed
+</div>
+<div class="info">
+  Note how parameters will affect on the output (overlap and gap)
+</div>
 <app-terminal></app-terminal>
