@@ -1,3 +1,23 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">bufferTime</div>
+<div class="info">
+  To demonstrate bufferTime() functionality we will create 3 observables as
+  following:
+</div>
+<div class="info">
+  interval of 200 which will pipe into bufferTime to buffer 800ms emits and
+  takes 4 buffers
+</div>
+<div class="info">and finally logs the observable has been completed</div>
+<div class="info">
+  the 2nd observable will have same structure only buffering 600 and interval of
+  1200
+</div>
+<div class="info">
+  the 3rd observable will have same structure only buffering 600 and interval of
+  1200 and maxBufferSize 3
+</div>
+<div class="info">
+  Note how buffer window causes some emits discarded and how maxBufferSize
+  limits the emission length
+</div>
 <app-terminal></app-terminal>
