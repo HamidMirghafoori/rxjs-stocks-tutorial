@@ -1,3 +1,49 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">bufferToggle</div>
+<div class="info">
+  To understand the bufferToggle functionality we design the following:
+</div>
+<div class="info">1 - create source$ observable that is interval of 200ms</div>
+<div class="info">
+  2 - crate toggle$ observable which is basically an event from click on
+  document
+</div>
+<div class="info">
+  3 - create openings$ observable which uses toggles$ signal to increment
+  clickCounts and applies filter()
+</div>
+<div class="info indent">
+  to filter clicks when clickCount is odd. You can add a log for debugging like:
+</div>
+<div class="info indent">
+  ('opening = ', ***) *** is the return value from filter()
+</div>
+<div class="info">
+  4 - Use source$ observable to take 50 signals, use tap to log the value of
+  signal, then apply bufferToggle
+</div>
+<div class="info">
+  first argument will be openings$ and second will be a function which filters
+  toggle$ when clickCount is even
+</div>
+<div class="info">you can log closing state same as opening.</div>
+<div class="info">
+  By subscribing to source$ you should see logs of source$ and when you first
+  time click you should see
+</div>
+<div class="info">
+  opening state becomes true (meaning buffering will start) and when you click
+  again
+</div>
+<div class="info">
+  you will see the opening state becomes false and closing state becomes true
+  (meaning the buffering stops)
+</div>
+<div class="info">
+  after that immediately all the emitted values between open and close will be
+  logged as an array.
+</div>
+<div class="info">
+  You can try open buffering and wait till source completes and observe the
+  logged buffered values.
+</div>
 <app-terminal></app-terminal>
