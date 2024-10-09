@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { buffer, interval, take, tap } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -30,5 +31,14 @@ export class IntermediateLevelComponent implements OnInit {
      * Note how buffer collects the values and continues after each closingNotifier.
      */
 
+    const source$ = interval(100);
+    const bufferNotifier$ = interval(1000).pipe(take(10));
+    
+    source$
+      .pipe(
+        take(55),
+        tap(data => console.log(data)),
+        buffer(bufferNotifier$))
+      .subscribe((data) => console.log('Buffered data: ',data));
   }
 }
