@@ -1,3 +1,29 @@
 <div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="info">Create a source$ observable to emit values every 100ms</div>
+<div class="info">
+  To buffer values, define a bufferNotifier$ observable which emits every
+  1000ms,
+</div>
+<div class="info">The bufferNotifier$ will emit 10 signals</div>
+<div class="info">
+  Finally, we will subscribe to the source$ observable to take 55 signals,
+</div>
+<div class="info">we can tap and log the values of our stream</div>
+<div class="info">
+  Apply the window() operator which controlled by bufferNotifier$,
+</div>
+<div class="info">
+  To convert each observable into array of values use mergeMap() in combination
+  of toArray()
+</div>
+<div class="info">Subscribe to source$ and log the buffered data.</div>
+<div class="info">
+  Note how buffer collects the values and continues after each closingNotifier.
+</div>
+<div class="info">
+  Also note that here we used mergeMap to get access to values
+</div>
+<div class="info">
+  but in your pipeline you may perform other changes to each window if needed
+</div>
 <app-terminal></app-terminal>
