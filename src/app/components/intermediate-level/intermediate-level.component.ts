@@ -15,5 +15,14 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.take();
+  }
+
+  private take() {
+    /**
+     * Use interval of 100 as source and take only 11 values.
+     * Subscribe with complete function signature and log the values and complete message
+     */
+
   }
 }
