@@ -1,3 +1,34 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">windowToggle</div>
+<div class="info">
+  To understand the windowToggle functionality we modify bufferToggle code as
+  following:
+</div>
+<div class="info">source$, toggle$, and openings$ are the same</div>
+<div class="info">
+  In source$ observable subscription we replace bufferToggle with windowToggle
+</div>
+<div class="info">
+  Same as all previous window observables we have to get the values from window$
+  observables to log them.
+</div>
+<div class="info">
+  By subscribing to source$ you should see logs of source$ and when you first
+  time click you should see
+</div>
+<div class="info">
+  opening state becomes true (meaning buffering will start) and when you click
+  again
+</div>
+<div class="info">
+  you will see the opening state becomes false and closing state becomes true
+  (meaning the buffering stops)
+</div>
+<div class="info">
+  after that immediately all the emitted values between open and close will be
+  logged as an array.
+</div>
+<div class="info">
+  You can try open buffering and wait till source completes and observe the
+  logged buffered values.
+</div>
 <app-terminal></app-terminal>
