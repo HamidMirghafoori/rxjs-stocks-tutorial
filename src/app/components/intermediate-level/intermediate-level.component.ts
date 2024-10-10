@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { from, takeLast } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -23,6 +24,11 @@ export class IntermediateLevelComponent implements OnInit {
      * Emit alphabets from a to z and take just last 9 signals
      * Subscribe with complete function signature and log the values and log complete message
      */
-
+    from('abcdefghijklmnopqrstuvwxyz'.split(''))
+      .pipe(takeLast(9))
+      .subscribe({
+        next: (data) => console.log(data),
+        complete: () => console.log('Alphabet completed!'),
+      });
   }
 }
