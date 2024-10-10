@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { bufferWhen, interval, take, tap } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,5 +26,14 @@ export class IntermediateLevelComponent implements OnInit {
      * we use bufferWhen and pass a function that returns random intervals between 500 to 3000
      * Subscribe to the source$ and log the buffered data and observe how bufferWhen works
      */
+    const source$ = interval(300);
+
+    source$.pipe(
+      tap(data=> console.log(data)),
+      take(20),
+      bufferWhen(() => interval(Math.floor(Math.random() * 3000) + 500))
+    ).subscribe((data) => {
+      console.log('Buffered Values:', data);
+    });
   }
 }
