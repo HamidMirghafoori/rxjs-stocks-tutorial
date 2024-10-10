@@ -15,5 +15,17 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.windowCount();
+  }
+
+  private windowCount() {
+    /**
+     * To demonstrate windowCount() functionality we will use bufferCount() answer as our start point:
+     * after replacing bufferCount with windowCount we need to convert the window$ observables into 
+     * array of values so we be able to log them.
+     * we will implement concat to executed each observable synchronously
+     * Note how parameters will affect on the output (overlap and gap)
+     */
+
   }
 }
