@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { interval, mergeMap, take, tap, toArray, window } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -33,5 +34,16 @@ export class IntermediateLevelComponent implements OnInit {
      * but in your pipeline you may perform other changes to each window if needed
      */
 
+    const source$ = interval(100);
+    const bufferNotifier$ = interval(1000).pipe(take(10));
+
+    source$
+      .pipe(
+        take(55),
+        tap((data) => console.log(data)),
+        window(bufferNotifier$),
+        mergeMap((window$) => window$.pipe(toArray()))
+      )
+      .subscribe((data) => console.log('Buffered data: ', data));
   }
 }
