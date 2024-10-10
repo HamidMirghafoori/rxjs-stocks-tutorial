@@ -15,5 +15,15 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.windowWhen();
+  }
+
+  private windowWhen() {
+    /**
+     * To explore windowWhen functionality we will modify bufferWhen code as following:
+     * we replace bufferWhen with windowWhen and then same as before we extract values from window$ observables
+     * Subscribe to the source$ and log the buffered data and observe how bufferWhen works
+     */
+
   }
 }
