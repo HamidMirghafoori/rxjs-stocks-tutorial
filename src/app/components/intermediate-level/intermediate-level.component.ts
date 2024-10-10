@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { concat, finalize, interval, takeWhile, tap } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -28,6 +29,19 @@ export class IntermediateLevelComponent implements OnInit {
      * Execute two counters synchronously.  and at the end log a message that whole stream completed.
      * Note the difference between two counters
      */
+    const counter1$ = interval(300).pipe(
+      takeWhile((value) => value < 4),
+      tap((value) => console.log('Counter1: ', value)),
+      finalize(() => console.log('Counter1 completed!'))
+    );
+    const counter2$ = interval(300).pipe(
+      takeWhile((value) => value < 4, true),
+      tap((value) => console.log('Counter2: ', value)),
+      finalize(() => console.log('Counter2 completed!'))
+    );
 
+    concat(counter1$, counter2$).subscribe({
+      complete: () => console.log('Concat completed!'),
+    });
   }
 }
