@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { interval, mergeMap, take, tap, toArray, windowWhen } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,6 +25,17 @@ export class IntermediateLevelComponent implements OnInit {
      * we replace bufferWhen with windowWhen and then same as before we extract values from window$ observables
      * Subscribe to the source$ and log the buffered data and observe how bufferWhen works
      */
+    const source$ = interval(300);
 
+    source$
+      .pipe(
+        tap((data) => console.log(data)),
+        take(20),
+        windowWhen(() => interval(Math.floor(Math.random() * 3000) + 500)),
+        mergeMap((window$) => window$.pipe(toArray()))
+      )
+      .subscribe((data) => {
+        console.log('Buffered Values:', data);
+      });
   }
 }
