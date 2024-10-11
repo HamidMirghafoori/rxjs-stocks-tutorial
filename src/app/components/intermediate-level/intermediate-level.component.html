@@ -1,3 +1,29 @@
 <div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="info">
+  Starting data is provided, the reason we typed all of them as any is that
+</div>
+<div class="info">
+  zipAll expects all observables have same type, which ours is not. Casting any
+  solved the lint error
+</div>
+<div class="info">
+  1 - combine all three observables as one observable named
+  higherOrderObservable$
+</div>
+<div class="info">
+  Because zipAll is a pipeable operator, so pipe into higherOrderObservable$ and
+  apply zipAll()
+</div>
+<div class="info">then subscribe and log the values.</div>
+<div class="info">
+  Note similar to zip, the moment one observable completes, zipAll completes
+  too.
+</div>
+<div class="info">
+  2 - copy your higherOrderObservable$ code and provide resultSelector function
+  to zipAll()
+</div>
+<div class="info">
+  to transform data same as zip() transformation with a dash between values
+</div>
 <app-terminal></app-terminal>

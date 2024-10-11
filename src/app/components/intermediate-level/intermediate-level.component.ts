@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -15,5 +16,23 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.zipAll();
+  }
+
+  private zipAll() {
+    const obs1$ = of<any>(1, 2, 3, 4, 5);
+    const obs2$ = of<any>('A', 'B', 'C', 'D');
+    const obs3$ = of<any>(true, false, true);
+    /**
+     * Starting data is provided, the reason we typed all of them as any is that
+     * zipAll expects all observables have same type, which ours is not. Casting any solved the lint error
+     * 1 - combine all three observables as one observable named higherOrderObservable$
+     * Because zipAll is a pipeable operator, so pipe into higherOrderObservable$ and apply zipAll()
+     * then subscribe and log the values.
+     * Note similar to zip, the moment one observable completes, zipAll completes too.
+     * 2 - copy your higherOrderObservable$ code and provide resultSelector function to zipAll() 
+     * to transform data same as zip() transformation with a dash between values
+     */
+
   }
 }
