@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, zipWith } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -29,5 +29,8 @@ export class IntermediateLevelComponent implements OnInit {
      * Note how zip completes when one of the observables completes.
      */
 
+    obs1$.pipe(zipWith(obs2$, obs3$)).subscribe((value) => {
+      console.log('Zipped value: ', value);
+    });
   }
 }
