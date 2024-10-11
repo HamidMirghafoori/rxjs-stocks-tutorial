@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, zip } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -30,6 +30,21 @@ export class IntermediateLevelComponent implements OnInit {
      * 2 - Create new zip and provide a function to transform the data
      * use the zip values as arguments and return a string that values are formatted with a dash in between them
      */
+    const zipped$ = zip(obs1$, obs2$, obs3$);
 
+    zipped$.subscribe((value) => {
+      console.log('Zipped value: ', value);
+    });
+
+    const zippedTransformed$ = zip(
+      obs1$,
+      obs2$,
+      obs3$,
+      (count, label, active) => `${count} - ${label} - ${active}`
+    );
+
+    zippedTransformed$.subscribe((value) =>
+      console.log('Transformed: ', value)
+    );
   }
 }
