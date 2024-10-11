@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, zipAll } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -33,6 +33,18 @@ export class IntermediateLevelComponent implements OnInit {
      * 2 - copy your higherOrderObservable$ code and provide resultSelector function to zipAll() 
      * to transform data same as zip() transformation with a dash between values
      */
+    const higherOrderObservable$ = of(obs1$, obs2$, obs3$);
 
+    higherOrderObservable$
+      .pipe(zipAll())
+      .subscribe((data) => console.log('Without transformation: ', data));
+
+    higherOrderObservable$
+      .pipe(
+        zipAll((data1, data2, data3) => {
+          return `${data1} - ${data2} - ${data3}`;
+        })
+      )
+      .subscribe((data) => console.log('With transformation: ', data));
   }
 }
