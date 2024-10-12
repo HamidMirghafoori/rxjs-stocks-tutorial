@@ -15,5 +15,15 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.scan();
+  }
+
+  private scan() {
+    /**
+     * Emit values of 1 to 5, apply scan operator to calculate the sum of them
+     * for initial value we will use 0.
+     * subscribe and log the result.
+     */
+
   }
 }
