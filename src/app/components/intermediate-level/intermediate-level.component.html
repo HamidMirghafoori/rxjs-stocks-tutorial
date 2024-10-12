@@ -1,3 +1,25 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">switchScan</div>
+<div class="info">
+  Suppose we are frequently checking an endpoint for new values
+</div>
+<div class="info">
+  if endpoint takes more time than our interval we will discard that api call
+  (cancel the call)
+</div>
+<div class="info">to do that we will modify mergeScan code</div>
+<div class="info">
+  We will add a log to our fakeApiRequest to log the current id
+</div>
+<div class="info">the delays will be 100, 600, 100, 10 respectively</div>
+<div class="info">
+  our ids$ will be interval of 500 and we will take 8 values
+</div>
+<div class="info">
+  Apply switchScan on ids$ by passing accumulator function with default 0
+</div>
+<div class="info">Subscribe to ids$ and log the values</div>
+<div class="info">
+  Note how it accumulates the values and when fakeApiRequest takes too long it
+  will discarded
+</div>
 <app-terminal></app-terminal>
