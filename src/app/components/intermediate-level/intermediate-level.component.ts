@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { filter, from, map } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -32,6 +33,11 @@ export class IntermediateLevelComponent implements OnInit {
      * return only name of the student
      * Subscrive and log the values
      */
-
+    from(students)
+      .pipe(
+        filter((student) => student.passed),
+        map((student) => student.name)
+      )
+      .subscribe(console.log);
   }
 }
