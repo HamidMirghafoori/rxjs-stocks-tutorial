@@ -15,5 +15,23 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.filter();
+  }
+
+  private filter() {
+    const students = [
+      { name: 'Alice', passed: true },
+      { name: 'Bob', passed: false },
+      { name: 'Charlie', passed: true },
+      { name: 'David', passed: false },
+      { name: 'Joe', passed: true },
+    ];
+    /**
+     * list of students provided,
+     * Emit students and apply filter to only display students that passed
+     * return only name of the student
+     * Subscrive and log the values
+     */
+
   }
 }
