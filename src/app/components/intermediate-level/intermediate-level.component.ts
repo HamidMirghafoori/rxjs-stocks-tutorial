@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { of, scan } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,6 +25,8 @@ export class IntermediateLevelComponent implements OnInit {
      * for initial value we will use 0.
      * subscribe and log the result.
      */
-
+    of(1, 2, 3, 4, 5)
+      .pipe(scan((acc, value) => acc + value, 0))
+      .subscribe((result) => console.log(result));
   }
 }
