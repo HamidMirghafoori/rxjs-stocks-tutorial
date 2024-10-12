@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { delay, from, mergeScan, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -30,6 +31,23 @@ export class IntermediateLevelComponent implements OnInit {
      * Note how it accumulates the values
      * Remove concurrent argument to see what happens?
      */
-  
+    const fakeApiRequest = (accumulatedTotal: number, id: number) => {
+      switch (id) {
+        case 1:
+          return of(accumulatedTotal + 100).pipe(delay(1000));
+        case 2:
+          return of(accumulatedTotal + 250).pipe(delay(1000));
+        case 3:
+          return of(accumulatedTotal + 80).pipe(delay(1000));
+        default:
+          return of(accumulatedTotal).pipe(delay(10));
+      }
+    };
+
+    const ids$ = from([1, 2, 3]);
+
+    ids$
+      .pipe(mergeScan((acc, value) => fakeApiRequest(acc, value), 0, 1))
+      .subscribe((result) => console.log(result));
   }
 }
