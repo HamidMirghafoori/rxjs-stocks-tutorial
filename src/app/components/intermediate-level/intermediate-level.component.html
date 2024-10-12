@@ -1,3 +1,23 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">mergeScan</div>
+<div class="info">
+  1 - create a function and save it as fakeApiRequest it accepts two arguments
+</div>
+<div class="info">
+  accumulatedTotal and id and returns observable from summing accumulatedTotal
+  with
+</div>
+<div class="info">
+  100 if id===1, 250 if id===2, and 80 if id===3, default returns observable of
+  accumulatedTotal itself
+</div>
+<div class="info">each return will have 1000ms delay</div>
+<div class="info">2 - create ids$ observable from array of 1 to 3</div>
+<div class="info">
+  3 - apply mergeScan on ids$ by passing accumulator function with default 0 and
+  concurrent = 1
+</div>
+<div class="info">Subscribe to ids$ and log the values</div>
+<div class="info">Note how it accumulates the values</div>
+<div class="info">Remove concurrent argument to see what happens?</div>
+
 <app-terminal></app-terminal>
