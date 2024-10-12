@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { of, partition } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,6 +26,11 @@ export class IntermediateLevelComponent implements OnInit {
      * Store the return value of partition as evens$ and odds$ observables.
      * Subscribe to them and log the values.
      */
+    const source$ = of(1, 2, 3, 4, 5, 6);
 
+    const [evens$, odds$] = partition(source$, (value) => value % 2 === 0);
+
+    evens$.subscribe((val) => console.log('Even:', val));
+    odds$.subscribe((val) => console.log('Odd:', val));
   }
 }
