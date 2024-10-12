@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { audit, interval, take } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +28,13 @@ export class IntermediateLevelComponent implements OnInit {
      * Subscribe to result$ and log the values
      * Note how the values are discarded and only the last value of each audit will be emitted
      */
+    const source$ = interval(500);
 
+    const result$ = source$.pipe(
+      audit(() => interval(2000)),
+      take(5)
+    );
+
+    result$.subscribe((value) => console.log(value));
   }
 }
