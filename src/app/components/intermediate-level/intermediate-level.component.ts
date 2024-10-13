@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { count, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,5 +27,10 @@ export class IntermediateLevelComponent implements OnInit {
      * Apply count with predicate function to count odd values
      */
 
+    source$.pipe(count()).subscribe((value) => console.log('Total: ', value));
+
+    source$
+      .pipe(count((value) => value % 2 === 1))
+      .subscribe((value) => console.log('Total odds: ', value));
   }
 }
