@@ -15,5 +15,16 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.skipWhile();
   }
+
+  private skipWhile() {
+    /**
+     * Create source$ which emits numbers 1 to 7 and apply skipWhile with a predicate function
+     * which checks if the value is less than 4
+     * Subscribe to source$ and log the values.
+     * Note that all values before 4 will be skipped.
+     */
+  }
+
 }
