@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { concat, interval, take, throttle, throttleTime } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -30,6 +31,18 @@ export class IntermediateLevelComponent implements OnInit {
      * and instead it just emits trailing values. That's because our observable does not emit another value
      * immediately after training value, so throttleTime treats the next late coming value as trailing values.
      */
+    const source$ = interval(500);
 
+    const obs1$ = source$.pipe(
+      throttleTime(2000),
+      take(5)
+    );
+
+    const obs2$ = source$.pipe(
+      throttle(() => interval(2000), { leading: true, trailing: true }),
+      take(5)
+    );
+
+    concat(obs1$, obs2$).subscribe(console.log);
   }
 }
