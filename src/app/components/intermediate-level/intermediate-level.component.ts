@@ -15,5 +15,16 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.skipUntil();
+  }
+
+  private skipUntil() {
+    /**
+     * Create source$ with interval of 100 and notifier$ with interval of 600
+     * Apply skipUntil to source$ with notifier$ as argument, and take 7 values
+     * Subscribe to source$ and log the values.
+     * Note how many values are skipped.
+     */
+
   }
 }
