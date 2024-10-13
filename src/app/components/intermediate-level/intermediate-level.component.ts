@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { of, skipLast } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,6 +26,11 @@ export class IntermediateLevelComponent implements OnInit {
      * Subscribe with complete function signature to source$ and log the values and complete message
      * Observe which values have been skipped.
      */
+    const source$ = of(1, 2, 3, 4, 5);
 
+    source$.pipe(skipLast(2)).subscribe({
+      next: (value) => console.log(value),
+      complete: () => console.log('Complete'),
+    });
   }
 }
