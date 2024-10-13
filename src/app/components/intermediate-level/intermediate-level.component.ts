@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { interval, skipUntil, take } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,6 +26,12 @@ export class IntermediateLevelComponent implements OnInit {
      * Subscribe to source$ and log the values.
      * Note how many values are skipped.
      */
+    const source$ = interval(100);
 
+    const notifier$ = interval(600);
+
+    source$
+      .pipe(skipUntil(notifier$), take(7))
+      .subscribe((value) => console.log(value));
   }
 }
