@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { of, single } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -28,6 +29,32 @@ export class IntermediateLevelComponent implements OnInit {
      * 
      * Observe returned value and different types of errors:
      */
+    of(10, 20, 30, 5)
+      .pipe(single((value) => value > 20))
+      .subscribe({
+        next: (value) => console.log(value),
+        error: (err) => console.log(err),
+      });
 
+    of(10, 20, 30, 5)
+      .pipe(single((value) => value > 10))
+      .subscribe({
+        next: (value) => console.log(value),
+        error: (err) => console.log(err),
+      });
+
+    of(10, 20, 30, 5)
+      .pipe(single((value) => value > 50))
+      .subscribe({
+        next: (value) => console.log(value),
+        error: (err) => console.log(err),
+      });
+
+    of()
+      .pipe()
+      .subscribe({
+        next: (value) => console.log(value),
+        error: (err) => console.log(err),
+      });
   }
 }
