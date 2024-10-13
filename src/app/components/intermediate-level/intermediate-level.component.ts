@@ -15,5 +15,18 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.first();
+  }
+
+  private first() {
+    /**
+     * Emit values of 10,20,30
+     * 1 - Apply first and subscribe to log the value
+     * 2 - Emit same values and provide a predicate function to find first value bigger than 15
+     * 3 - Emit same values and provide a predicate function to find first value bigger than 50,
+     *     also provide default value 100
+     * Observe which values are returned and how default value worked.
+     */
+
   }
 }
