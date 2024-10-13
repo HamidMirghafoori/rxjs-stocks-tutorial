@@ -15,5 +15,19 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.single();
+  }
+
+  private single() {
+    /**
+     * Emit values of 10,20,30,5 for question 1 to 3 and subscribe with complete function signature:
+     * 1 - Apply single and provide a predicate function to find last value bigger than 20
+     * 2 - Apply single and provide a predicate function to find last value bigger than 10
+     * 3 - Apply single and provide a predicate function to find last value bigger than 50
+     * 4 - Apply single to empty observable of(), 
+     * 
+     * Observe returned value and different types of errors:
+     */
+
   }
 }
