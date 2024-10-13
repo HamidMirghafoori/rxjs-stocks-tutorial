@@ -1,3 +1,28 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">throttleTime</div>
+<div class="info">1 - Define source$ as interval of 500</div>
+<div class="info">
+  Create obs1$ with applying throttleTime to source$ with passing a function that
+  returns interval of 2000
+</div>
+<div class="info">
+  2 - Copy obs1$ and rename it to obs2$ and apply config in throttleTime with
+  leading=true and trailing=true
+</div>
+<div class="info">
+  To have separate execution use concat to execute observables synchronously.
+</div>
+<div class="info">subscribe to it and log the values</div>
+<div class="info">Note the differences.</div>
+<div class="info">
+  Note that for obs2$ we have only one leading value and the rest does not have
+  leading values
+</div>
+<div class="info">
+  and instead it just emits trailing values. That's because our observable does
+  not emit another value
+</div>
+<div class="info">
+  immediately after training value, so throttleTime treats the next late coming
+  value as trailing values.
+</div>
 <app-terminal></app-terminal>
