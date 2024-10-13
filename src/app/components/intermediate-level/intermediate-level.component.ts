@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { interval, sampleTime, take, tap } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,6 +26,12 @@ export class IntermediateLevelComponent implements OnInit {
      * Subscribe and log the sampled values.
      * Observe how sample() works.
      */
+    const source$ = interval(1000).pipe(
+      tap((value) => console.log('Source: ', value))
+    );
 
+    source$.pipe(sampleTime(2500), take(5)).subscribe((value) => {
+      console.log('Sampled value: ', value);
+    });
   }
 }
