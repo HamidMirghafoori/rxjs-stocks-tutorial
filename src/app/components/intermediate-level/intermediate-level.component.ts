@@ -15,5 +15,15 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.skip();
+  }
+
+  private skip() {
+    /**
+     * Create source$ which will emit numbers from 1 to 5
+     * Apply skip to source$ to skip 2 emissions
+     * Subscribe to source$ and log the values
+     */
+
   }
 }
