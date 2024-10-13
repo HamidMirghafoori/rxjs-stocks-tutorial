@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { first, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +28,16 @@ export class IntermediateLevelComponent implements OnInit {
      *     also provide default value 100
      * Observe which values are returned and how default value worked.
      */
+    of(10, 20, 30)
+      .pipe(first())
+      .subscribe((value) => console.log(value));
 
+    of(10, 20, 30)
+      .pipe(first((value) => value > 15))
+      .subscribe((value) => console.log(value));
+
+    of(10, 20, 30)
+      .pipe(first((value) => value > 50, 100))
+      .subscribe((value) => console.log(value));
   }
 }
