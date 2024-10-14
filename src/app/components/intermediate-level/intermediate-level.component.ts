@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { delay, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,5 +24,8 @@ export class IntermediateLevelComponent implements OnInit {
     /**
      * Apply delay to source$ with due time 1000ms. Subscribe to source$ and log the values.
      */
+    source$.pipe(delay(1000)).subscribe((value) => {
+      console.log(value);
+    });
   }
 }
