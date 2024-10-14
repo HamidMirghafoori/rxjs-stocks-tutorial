@@ -15,5 +15,13 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.range();
+  }
+
+  private range() {
+    /**
+     * Create a range of numbers starting from 5 with total number of 10 values (till 14).
+     */
+
   }
 }
