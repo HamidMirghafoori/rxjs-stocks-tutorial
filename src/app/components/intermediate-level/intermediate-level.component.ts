@@ -15,5 +15,14 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.timeInterval();
+  }
+
+  private timeInterval() {
+    /**
+     * Create click$ from click event on document.
+     * Apply timeInterval on click$ and subscribe and log a message displaying the time passed since last click.
+     */
+
   }
 }
