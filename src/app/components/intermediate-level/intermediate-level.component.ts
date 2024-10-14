@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { interval, map, raceWith, take } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +28,21 @@ export class IntermediateLevelComponent implements OnInit {
      * Apply raceWith to obs1$ and pass obs2$ and obs3$ as arguments. Subscribe and log the result
      * Note how only the fastest observable will be emitted til it completes.
      */
+    const obs1$ = interval(7000).pipe(
+      map((value) => `slow one ${value}`),
+      take(5)
+    );
+    const obs2$ = interval(3000).pipe(
+      map((value) => `fast one ${value}`),
+      take(5)
+    );
+    const obs3$ = interval(5000).pipe(
+      map((value) => `medium one ${value}`),
+      take(5)
+    );
 
+    obs1$
+      .pipe(raceWith(obs2$, obs3$))
+      .subscribe((winner) => console.log(winner));
   }
 }
