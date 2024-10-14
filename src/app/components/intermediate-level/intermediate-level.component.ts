@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { every, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -26,6 +26,13 @@ export class IntermediateLevelComponent implements OnInit {
      * 1 - Apply every to source1$ check if the value is even, subscribe and log the result
      * 2 - Apply every to source2$ check if the value is even, subscribe and log the result
      */
-    
+
+    source1$
+      .pipe(every((value) => value % 2 === 0))
+      .subscribe((result) => console.log(result));
+
+    source2$
+      .pipe(every((value) => value % 2 === 0))
+      .subscribe((result) => console.log(result));
   }
 }
