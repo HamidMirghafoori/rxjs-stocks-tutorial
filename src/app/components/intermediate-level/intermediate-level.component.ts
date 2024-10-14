@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { endWith, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -23,6 +24,6 @@ export class IntermediateLevelComponent implements OnInit {
      * Emit values from 1 to 3 and apply endWith with values 6,7,8
      * Subscribe and log the values
      */
-
+    of(1, 2, 3).pipe(endWith(...[6,7,8])).subscribe(console.log);
   }
 }
