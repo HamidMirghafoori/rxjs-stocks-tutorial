@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,6 +25,14 @@ export class IntermediateLevelComponent implements OnInit {
      * and log the values and complete message
      * 2 - do the same as question 1 and use array of numbers as input
      */
+    of(1, 2, 3).subscribe({
+      next: (value) => console.log(value),
+      complete: () => console.log('Complete'),
+    });
 
+    of([1, 2, 3]).subscribe({
+      next: (value) => console.log(value),
+      complete: () => console.log('Complete'),
+    });
   }
 }
