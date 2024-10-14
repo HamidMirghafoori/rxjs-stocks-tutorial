@@ -15,5 +15,14 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.endWith();
+  }
+
+  private endWith() {
+    /**
+     * Emit values from 1 to 3 and apply endWith with values 6,7,8
+     * Subscribe and log the values
+     */
+
   }
 }
