@@ -15,5 +15,13 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.interval();
+  }
+
+  private interval() {
+    /**
+     * Use interval to produce values from 0 every 1000ms.
+     */
+
   }
 }
