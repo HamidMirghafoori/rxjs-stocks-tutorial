@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { range } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -22,6 +23,6 @@ export class IntermediateLevelComponent implements OnInit {
     /**
      * Create a range of numbers starting from 5 with total number of 10 values (till 14).
      */
-
+    range(5, 10).subscribe(console.log);
   }
 }
