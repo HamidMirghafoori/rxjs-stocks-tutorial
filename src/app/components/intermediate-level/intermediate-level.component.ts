@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, startWith } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,6 +24,8 @@ export class IntermediateLevelComponent implements OnInit {
     /**
      * Apply startWith with values 0 and 1, subscribe and log the values
      */
+    const result$ = source$.pipe(startWith(...[0, 1]));
 
+    result$.subscribe((value) => console.log(value));
   }
 }
