@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { findIndex, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -26,6 +26,12 @@ export class IntermediateLevelComponent implements OnInit {
      * 1- find the first value bigger than 40 and log the result
      * 2 - find the fist value bigger than 90 and log the result
      */
+    numbers$
+      .pipe(findIndex((value) => value > 40))
+      .subscribe((result) => console.log(result));
 
+    numbers$
+      .pipe(findIndex((value) => value > 90))
+      .subscribe((result) => console.log(result));
   }
 }
