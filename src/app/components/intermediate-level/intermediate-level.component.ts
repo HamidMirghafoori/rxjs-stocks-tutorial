@@ -15,5 +15,14 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.tap();
+  }
+  private tap() {
+    /**
+     * Emit values 1 to 3, apply tap to log the values
+     * apply tap again with complete function signature and log respective message
+     * Observer how we can tap into all three emission types.
+     */
+
   }
 }
