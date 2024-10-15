@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { noop, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -23,6 +24,10 @@ export class IntermediateLevelComponent implements OnInit {
      * Emit values 1,2,3 and subscribe with complete function signature. Pass noop as error callback
      * Note it won't do anything if error happens, if you provide noop for next callback, emissions will be ignored
      */
-
+    of(1, 2, 3).subscribe({
+      next: console.log,
+      error: noop,
+      complete: () => console.log('Complete!'),
+    });
   }
 }
