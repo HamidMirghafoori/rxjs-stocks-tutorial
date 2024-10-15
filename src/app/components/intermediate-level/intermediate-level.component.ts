@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { interval } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -15,5 +16,17 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.defaultEmpty();
+  }
+
+  private defaultEmpty() {
+    const api$ = interval(5000);
+    /**
+     * Create data$ which waits for 3000 to receive value, 
+     * and then apply defaultIfEmpty with a message that data didn't received
+     * subscribe to it and log the data.
+     * Change time to 6000 and observe the log
+     */
+
   }
 }
