@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { isEmpty, Subject } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +28,16 @@ export class IntermediateLevelComponent implements OnInit {
      * complete source$
      * Create new subscription to result$ and note the log
      */
+    const source$ = new Subject<string>();
+    const result$ = source$.pipe(isEmpty());
 
+    source$.subscribe((x) => console.log(x));
+    result$.subscribe((x) => console.log(x));
+
+    source$.next('a');
+    source$.next('b');
+    source$.next('c');
+    source$.complete();
+    result$.subscribe((x) => console.log(x));
   }
 }
