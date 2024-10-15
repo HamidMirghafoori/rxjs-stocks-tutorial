@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { from } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -30,6 +31,20 @@ export class IntermediateLevelComponent implements OnInit {
      * 3 - Create observable3$ from string 'Hello', subscribe and log the values
      * Observe how from converts different data types and how from emits them.
      */
+    const observable1$ = from(numbers);
 
+    observable1$.subscribe((value) => console.log(value));
+
+    const observable2$ = from(promise);
+
+    observable2$.subscribe({
+      next: (value) => console.log(value),
+      error: (err) => console.error('Error: ', err),
+      complete: () => console.log('Completed!'),
+    });
+
+    const observable3$ = from('Hello');
+
+    observable3$.subscribe((value) => console.log(value));
   }
 }
