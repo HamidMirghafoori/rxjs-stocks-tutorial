@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { of, toArray } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,5 +24,6 @@ export class IntermediateLevelComponent implements OnInit {
     /**
      * Apply toArray to source$ and subscribe to log the value
      */
+    source$.pipe(toArray()).subscribe((result) => console.log(result));
   }
 }
