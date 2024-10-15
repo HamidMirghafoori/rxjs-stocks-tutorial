@@ -15,5 +15,14 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.map();
+  }
+
+  private map() {
+    /**
+     * Emit values from 1 to 4 and apply map to multiply them by 2.
+     * Subscribe and log the result
+     */
+
   }
 }
