@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { isObservable, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,6 +25,7 @@ export class IntermediateLevelComponent implements OnInit {
     /**
      * Use isObservable to check if obs$ and notObs are observables or not
      */
-
+    console.log('obs$ is observable: ', isObservable(obs$));
+    console.log('notObs is observable: ', isObservable(notObs));
   }
 }
