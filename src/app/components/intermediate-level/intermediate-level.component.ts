@@ -15,5 +15,17 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.fromEvent();
+  }
+
+  private fromEvent() {
+    /**
+     * 1 - use fromEvent to capture click and log x position of mouse
+     * 2 - use fromEvent to capture click with options { passive: true, once: true, capture: true}
+     * and log x position of mouse
+     * 3 - use fromEvent to capture keyboard press and log pressed key
+     * Note how 2nd event listener automatically removed
+     */
+
   }
 }
