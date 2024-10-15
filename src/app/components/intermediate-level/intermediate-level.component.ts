@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { fromEvent } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -26,6 +27,20 @@ export class IntermediateLevelComponent implements OnInit {
      * 3 - use fromEvent to capture keyboard press and log pressed key
      * Note how 2nd event listener automatically removed
      */
+    fromEvent<MouseEvent>(document, 'click').subscribe((event) =>
+      console.log('1st click x:', event.clientX)
+    );
 
+    fromEvent<MouseEvent>(document, 'click', {
+      passive: true,
+      once: true,
+      capture: true,
+    }).subscribe((event) => console.log('2nd click x:', event.clientX));
+
+    fromEvent<KeyboardEvent, string>(
+      document,
+      'keydown',
+      (event) => event.key
+    ).subscribe((key) => console.log('3rd key pressed:', key));
   }
 }
