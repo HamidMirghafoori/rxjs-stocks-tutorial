@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { iif, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -24,6 +25,12 @@ export class IntermediateLevelComponent implements OnInit {
      * true or false, provide true and false observables which emitting a message respectively
      * subscribe to example$ and log the value
      */
+    const example$ = iif(
+      () => Math.random() > 0.5,
+      of('Condition is true!'),
+      of('Condition is false!')
+    );
 
+    example$.subscribe((value) => console.log(value));
   }
 }
