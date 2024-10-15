@@ -15,5 +15,18 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.isEmpty();
+  }
+
+  private isEmpty() {
+    /**
+     * Create source$ as new Subject
+     * Create result from source$ which isEmpty() applied to it
+     * subscribe to both of them and log the values
+     * and push few times new value to source$, observe the logs
+     * complete source$
+     * Create new subscription to result$ and note the log
+     */
+
   }
 }
