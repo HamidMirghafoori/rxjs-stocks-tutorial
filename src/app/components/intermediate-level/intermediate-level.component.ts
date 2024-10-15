@@ -25,8 +25,13 @@ export class IntermediateLevelComponent implements OnInit {
      * use pipe on numbers$ provide a function which catches the value emitted from numbers$ and
      * subscribe to the value and log the values with a message to identify message comes from which log
      * then subscribe to numbers$ too and log its values too (with a message to identify the log)
-     * Note how pipe emits the original observable, so we have access to it to perform more transformation on data
+     * Note how pipe emits the original observable, so we have access to it to perform more transformation on
      */
-
+    numbers$
+      .pipe((value$) => {
+        value$.subscribe((val) => console.log('Log from value$ :', val));
+        return value$;
+      })
+      .subscribe((val2) => console.log('Log from numbers$ : ', val2));
   }
 }
