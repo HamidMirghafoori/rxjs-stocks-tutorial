@@ -15,5 +15,15 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.iif();
+  }
+
+  private iif() {
+    /**
+     * Create example$ with applying iif, for condition function use checking a random value to return
+     * true or false, provide true and false observables which emitting a message respectively
+     * subscribe to example$ and log the value
+     */
+
   }
 }
