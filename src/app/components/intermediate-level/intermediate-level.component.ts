@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { interval } from 'rxjs';
+import { defaultIfEmpty, interval, takeUntil } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +27,8 @@ export class IntermediateLevelComponent implements OnInit {
      * subscribe to it and log the data.
      * Change time to 6000 and observe the log
      */
-
+    const data$ = api$.pipe(takeUntil(interval(3000)));
+    const result$ = data$.pipe(defaultIfEmpty('No data from api$!'));
+    result$.subscribe((x) => console.log(x));
   }
 }
