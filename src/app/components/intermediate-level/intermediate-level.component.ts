@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { concatAll, delay, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -25,6 +26,12 @@ export class IntermediateLevelComponent implements OnInit {
      * Apply concatAll to source$ and subscribe and log the values.
      * Note the order and timing of the logs
      */
+    const source$ = of(
+      of(1).pipe(delay(1000)),
+      of(2).pipe(delay(500)),
+      of(3).pipe(delay(300))
+    );
 
+    source$.pipe(concatAll()).subscribe(console.log);
   }
 }
