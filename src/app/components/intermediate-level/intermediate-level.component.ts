@@ -15,5 +15,16 @@ export class IntermediateLevelComponent implements OnInit {
 
   public ngOnInit(): void {
     this.log.clearLogs();
+    this.concatAll();
+  }
+
+  private concatAll() {
+    /**
+     * Create higher order observable source$ by emitting three observables:
+     * first emits 1 with delay 1000, second emits 2 with delay 500 and third emits 3 with delay 300
+     * Apply concatAll to source$ and subscribe and log the values.
+     * Note the order and timing of the logs
+     */
+
   }
 }
