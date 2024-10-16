@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { concat, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -27,6 +27,7 @@ export class IntermediateLevelComponent implements OnInit {
      * Create result$ using concat and pass three provided observables to it
      * Subscribe and log the values, note the order of execution and logs
      */
-
+    const result$ = concat(first$, second$, third$);
+    result$.subscribe(console.log);
   }
 }
