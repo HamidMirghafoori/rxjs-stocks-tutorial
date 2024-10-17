@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { concatWith, delay, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -26,6 +27,10 @@ export class IntermediateLevelComponent implements OnInit {
      * use obs1$ and apply concatWith to it with obs2$ and obs3$ as its arguments.
      * Subscribe and log the data.
      */
+    const obs1$ = of('First Observable');
+    const obs2$ = of('Second Observable').pipe(delay(1000));
+    const obs3$ = of('Third Observable').pipe(delay(1000));
 
+    obs1$.pipe(concatWith(obs2$, obs3$)).subscribe(console.log);
   }
 }
