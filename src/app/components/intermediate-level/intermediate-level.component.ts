@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { delay, of } from 'rxjs';
+import { concatMap, delay, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -35,6 +35,13 @@ export class IntermediateLevelComponent implements OnInit {
      * then apply concat map again to consume getUserId response to pass to getUserProfile
      * Subscribe and log the value, note the sequence of the logs.
      */
-
+    of('start')
+      .pipe(
+        concatMap(() => this.getUserId()),
+        concatMap((response) => this.getUserProfile(response.userId))
+      )
+      .subscribe((profile) => {
+        console.log('User profile received:', profile);
+      });
   }
 }
