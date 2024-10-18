@@ -1,3 +1,11 @@
-<div class="title">Intermediate</div>
-<div class="info">instructions....</div>
+<div class="title">distinct</div>
+<div class="info">1 - Apply distinct to source1$, and subscribe and log the values</div>
+<div class="info">2 - Apply distinct to source2$ with key selector function to filter based on id</div>
+<div class="info indent">subscribe and log the values</div>
+<div class="info">3 - repeat question 2 just filter by name</div>
+<div class="info">4 - Apply distinct to source3$ apply only flush observable</div>
+<div class="info">flush observable is interval of 1000, log 'Flushed' for each emission and take 6</div>
+<div class="info">finally you can convert source3$ results to array.</div>
+<div class="info">Subscribe and log the values.</div>
+<div class="info">Note how flush resets the unique memory and observable starts to emit new unique values</div>
 <app-terminal></app-terminal>
