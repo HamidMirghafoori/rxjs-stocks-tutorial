@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { distinctUntilKeyChanged, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -32,6 +32,13 @@ export class IntermediateLevelComponent implements OnInit {
      * Apply distinctUntilKeyChanged on source$ and pass 'id' as parameter to filter based on id
      * subscribe and log the values. You can try 'name' to observe the difference
      */
-
+    console.log('filter by id:');
+    source$
+      .pipe(distinctUntilKeyChanged('id'))
+      .subscribe((value) => console.log(JSON.stringify(value)));
+    console.log('filter by name:');
+    source$
+      .pipe(distinctUntilKeyChanged('name'))
+      .subscribe((value) => console.log(JSON.stringify(value)));
   }
 }
