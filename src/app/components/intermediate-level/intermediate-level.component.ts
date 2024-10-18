@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import { distinctUntilChanged, of } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
 
@@ -36,6 +36,27 @@ export class IntermediateLevelComponent implements OnInit {
      * selects id for comparison, subscribe and log respectively
      * 3 - Same as question 2 but use name key for key selector
      */
+    source1$
+      .pipe(distinctUntilChanged())
+      .subscribe((value) => console.log(value));
 
+    console.log('Filter by id:');
+    source2$
+      .pipe(
+        distinctUntilChanged(
+          (prev, curr) => prev === curr,
+          (value) => value.id
+        )
+      )
+      .subscribe((value) => console.log(JSON.stringify(value)));
+    console.log('Filter by name:');
+    source2$
+      .pipe(
+        distinctUntilChanged(
+          (prev, curr) => prev === curr,
+          (value) => value.name
+        )
+      )
+      .subscribe((value) => console.log(JSON.stringify(value)));
   }
 }
