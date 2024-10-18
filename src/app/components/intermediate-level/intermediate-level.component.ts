@@ -3,8 +3,12 @@ import { FormsModule } from '@angular/forms';
 import {
   concatMap,
   delay,
+  distinct,
+  interval,
   of,
-  tap
+  take,
+  tap,
+  toArray,
 } from 'rxjs';
 import { LogService } from '../../services';
 import { TerminalComponent } from '../terminal/terminal.component';
@@ -75,6 +79,26 @@ export class IntermediateLevelComponent implements OnInit {
      * Subscribe and log the values.
      * Note how flush resets the unique memory and observable starts to emit new unique values
      */
-
+    source1$.pipe(distinct()).subscribe(console.log);
+    console.log('unique by id:');
+    source2$
+      .pipe(distinct((value) => value.id))
+      .subscribe((value) => console.log(JSON.stringify(value)));
+    console.log('unique by name:');
+    source2$
+      .pipe(distinct((value) => value.name))
+      .subscribe((value) => console.log(JSON.stringify(value)));
+    source3$
+      .pipe(
+        distinct(
+          undefined,
+          interval(1000).pipe(
+            tap(() => console.log('Flushed!')),
+            take(6)
+          )
+        ),
+        toArray()
+      )
+      .subscribe((value) => console.log(value));
   }
 }
